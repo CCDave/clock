@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent"
+	android:background="@color/white"
+	>
+
+    
+    <FrameLayout
+                android:id="@+id/HeadMyColckcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+          
+                >
+                <TextView 
+   				 	android:text="@string/myclcok" 
+    		     	android:layout_height="fill_parent" 
+                 	android:layout_width="fill_parent" 
+    			 	android:textSize="30sp"
+    				android:background="@color/green"
+    				android:textColor="@color/black"
+    				android:id="@+id/ItemMyClock"
+    				android:paddingLeft="12dip"
+    				android:gravity="center"
+    />
+ 
+    </FrameLayout>
+    
+    
+	<ListView
+    	android:divider="@drawable/liner"
+    	android:dividerHeight="1dip"
+        android:id="@+id/ListViewClock"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/HeadMyColckcontent"
+        >
+    </ListView>
+    
+</RelativeLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:id="@+id/RelativeLayout01" 
+	android:layout_width="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_height="fill_parent" 
+	>
+	
+    <!-- android:paddingBottom="4dip" 
+	android:paddingLeft="12dip"
+	android:paddingRight="12dip" android:paddingTop="22dip"-->
+<ImageView 
+	
+	android:layout_alignParentLeft="true"
+	android:layout_width="wrap_content" 
+	android:layout_height="fill_parent" 
+	android:id="@+id/ItemStarHeadImage"
+	android:contentDescription="@string/des"
+	
+	/> 
+<TextView 
+    android:text="@string/des" 
+    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent" 
+    android:textSize="20sp"
+    android:layout_toRightOf="@id/ItemStarHeadImage"
+    android:id="@+id/ItemClockName"
+    android:paddingLeft="12dip"
+    
+    />
+
+<TextView 
+	android:text="@string/des" 
+	android:layout_height="wrap_content" 
+	android:layout_width="fill_parent" 
+	android:textSize="40sp"
+	android:layout_below="@+id/ItemClockName" 
+	android:id="@+id/ItemClockTime"
+	android:layout_alignLeft="@id/ItemClockName"
+	android:paddingLeft="12dip"
+	android:textColor="#FFD700"
+	
+	/>
+<TextView 
+	android:text="@string/des" 
+	android:layout_height="wrap_content" 
+	android:layout_width="wrap_content" 
+	android:textSize="15sp"
+	android:layout_toRightOf="@id/ItemStarHeadImage"
+	android:layout_below="@+id/ItemClockTime" 
+	android:id="@+id/ItemClockData"
+	android:layout_alignLeft="@id/ItemClockName"
+	android:paddingLeft="12dip"
+	/>
+
+<TextView 
+	android:text="@string/des" 
+	android:layout_height="wrap_content" 
+	android:layout_width="fill_parent" 
+	android:textSize="15sp"
+	android:layout_alignTop="@id/ItemClockData"
+	android:layout_toRightOf="@id/ItemClockData" 
+	android:id="@+id/ItemClockLastTime"
+	android:textColor="#FFD700"
+	android:paddingLeft="18dip"
+	/>
+
+<ToggleButton
+    android:id="@+id/ButtonControl"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true"
+    android:textOn="on"
+    android:textOff="off"
+    android:layout_alignTop="@id/ItemClockTime"
+    />
+    
+
+</RelativeLayout>

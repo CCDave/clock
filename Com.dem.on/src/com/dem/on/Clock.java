@@ -26,7 +26,7 @@ public class Clock extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clock_activity);    
-        
+
         this.initMidListView();
     }
     

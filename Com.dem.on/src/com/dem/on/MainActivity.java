@@ -27,6 +27,8 @@ public class MainActivity extends TabActivity {
 	{
     	addTab("clock", R.drawable.tab_clock, Clock.class);
     	addTab("stars", R.drawable.tab_stars, stars.class);
+    	addTab("record", R.drawable.tab_record, record.class);
+    	addTab("setup", R.drawable.tab_record, setup.class);
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c)

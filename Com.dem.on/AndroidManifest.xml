@@ -24,6 +24,8 @@
         </activity>
          <activity android:name=".Clock"/>
          <activity android:name=".stars"/>
+         <activity android:name=".record"/>
+         <activity android:name=".setup"/>
          <activity android:name=".stars_list"/>
          
     </application>

@@ -28,8 +28,8 @@ public class stars extends TabActivity{
     	Toast.makeText(this, "I lied, I love KUNG FUuuuuuuuuUUuuu...!!", Toast.LENGTH_LONG).show();
     }
 	
-	 private void setTabs()
-		{
+	private void setTabs()
+	{
 	    	addTab("clock", R.drawable.tab_clock, stars_list.class);
 	    	addTab("stars", R.drawable.tab_stars, stars_list.class);
 	}

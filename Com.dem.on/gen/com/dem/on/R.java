@@ -60,36 +60,40 @@ public final class R {
         public static final int tab_focus=0x7f02000f;
         public static final int tab_indicator=0x7f020010;
         public static final int tab_press=0x7f020011;
-        public static final int tab_search=0x7f020012;
-        public static final int tab_selected=0x7f020013;
-        public static final int tab_stars=0x7f020014;
-        public static final int tab_unselected=0x7f020015;
-        public static final int wenzhang=0x7f020016;
+        public static final int tab_record=0x7f020012;
+        public static final int tab_search=0x7f020013;
+        public static final int tab_selected=0x7f020014;
+        public static final int tab_stars=0x7f020015;
+        public static final int tab_unselected=0x7f020016;
+        public static final int wenzhang=0x7f020017;
     }
     public static final class id {
         public static final int ButtonControl=0x7f090009;
         public static final int HeadMyColckcontent=0x7f090000;
-        public static final int HeadMyStarscontent=0x7f09000a;
+        public static final int HeadMyStarscontent=0x7f09000b;
         public static final int ItemClockData=0x7f090007;
         public static final int ItemClockLastTime=0x7f090008;
         public static final int ItemClockName=0x7f090005;
         public static final int ItemClockTime=0x7f090006;
         public static final int ItemMyClock=0x7f090001;
+        public static final int ItemRecord=0x7f09000a;
         public static final int ItemStarHeadImage=0x7f090004;
-        public static final int ItemStars=0x7f09000b;
-        public static final int ListStars=0x7f09000c;
+        public static final int ItemStars=0x7f09000c;
+        public static final int ListStars=0x7f09000d;
         public static final int ListViewClock=0x7f090002;
         public static final int RelativeLayout01=0x7f090003;
-        public static final int action_settings=0x7f09000e;
-        public static final int title=0x7f09000d;
+        public static final int action_settings=0x7f09000f;
+        public static final int title=0x7f09000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int clock_activity=0x7f030001;
         public static final int listitem=0x7f030002;
-        public static final int stars_activity=0x7f030003;
-        public static final int starts_list=0x7f030004;
-        public static final int tab_indicator=0x7f030005;
+        public static final int record_activity=0x7f030003;
+        public static final int setup_activity=0x7f030004;
+        public static final int stars_activity=0x7f030005;
+        public static final int starts_list=0x7f030006;
+        public static final int tab_indicator=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -100,6 +104,7 @@ public final class R {
         public static final int des=0x7f060004;
         public static final int hello_world=0x7f060002;
         public static final int myclcok=0x7f060005;
+        public static final int record=0x7f060007;
         public static final int stars=0x7f060006;
         public static final int welcom=0x7f060003;
     }

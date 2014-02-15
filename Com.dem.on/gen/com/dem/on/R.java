@@ -69,8 +69,9 @@ public final class R {
     }
     public static final class id {
         public static final int ButtonControl=0x7f090009;
+        public static final int ButtonRecord=0x7f09000d;
         public static final int HeadMyColckcontent=0x7f090000;
-        public static final int HeadMyStarscontent=0x7f09000b;
+        public static final int HeadMyStarscontent=0x7f09000e;
         public static final int ItemClockData=0x7f090007;
         public static final int ItemClockLastTime=0x7f090008;
         public static final int ItemClockName=0x7f090005;
@@ -78,12 +79,14 @@ public final class R {
         public static final int ItemMyClock=0x7f090001;
         public static final int ItemRecord=0x7f09000a;
         public static final int ItemStarHeadImage=0x7f090004;
-        public static final int ItemStars=0x7f09000c;
-        public static final int ListStars=0x7f09000d;
+        public static final int ItemStars=0x7f09000f;
+        public static final int ListStars=0x7f090010;
         public static final int ListViewClock=0x7f090002;
+        public static final int ListViewRecord=0x7f09000b;
         public static final int RelativeLayout01=0x7f090003;
-        public static final int action_settings=0x7f09000f;
-        public static final int title=0x7f09000e;
+        public static final int action_settings=0x7f090012;
+        public static final int recordframe=0x7f09000c;
+        public static final int title=0x7f090011;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -99,12 +102,14 @@ public final class R {
         public static final int main=0x7f080000;
     }
     public static final class string {
+        public static final int _sdcard_recording_=0x7f060009;
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int des=0x7f060004;
         public static final int hello_world=0x7f060002;
         public static final int myclcok=0x7f060005;
         public static final int record=0x7f060007;
+        public static final int setup=0x7f060008;
         public static final int stars=0x7f060006;
         public static final int welcom=0x7f060003;
     }

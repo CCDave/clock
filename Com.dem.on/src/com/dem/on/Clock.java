@@ -39,48 +39,48 @@ private void initMidListView() {
 		ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();  
-        map.put("ItemStarHeadImage", R.drawable.wenzhang);//Í¼Ïñ×ÊÔ´µÄID  
-        map.put("ItemClockName", "Æğ´²ÄÖÖÓ");  
+        map.put("ItemStarHeadImage", R.drawable.wenzhang);//å›¾é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æºé”Ÿæ–¤æ‹·ID  
+        map.put("ItemClockName", "é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·");  
         map.put("ItemClockTime", "07:30");  
-        map.put("ItemClockData", "ÖÜÒ»µ½ÖÜÎå"); 
+        map.put("ItemClockData", "é”Ÿæ–¤æ‹·ä¸€é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·"); 
         map.put("ItemClockLastTime", ""); 
         listItem.add(map);  
         
         HashMap<String, Object> map2 = new HashMap<String, Object>();  
-        map2.put("ItemStarHeadImage", R.drawable.gaoyuanyuan);//Í¼Ïñ×ÊÔ´µÄID  
-        map2.put("ItemClockName", "ÔçË¯ÄÖÖÓ");  
+        map2.put("ItemStarHeadImage", R.drawable.gaoyuanyuan);//å›¾é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æºé”Ÿæ–¤æ‹·ID  
+        map2.put("ItemClockName", "é”Ÿæ–¤æ‹·ç¡é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·");  
         map2.put("ItemClockTime", "23:00");  
-        map2.put("ItemClockData", "Ã¿Ìì"); 
-        map2.put("ItemClockLastTime", "»¹ÓĞ7Ğ¡Ê±30·ÖÖÓ"); 
+        map2.put("ItemClockData", "æ¯é”Ÿæ–¤æ‹·"); 
+        map2.put("ItemClockLastTime", "é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·7å°æ—¶30é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·"); 
         listItem.add(map2);  
         
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//Êı¾İÔ´   
-	            R.layout.listitem,//ListItemµÄXMLÊµÏÖ  
-	            //¶¯Ì¬Êı×éÓëImageItem¶ÔÓ¦µÄ×ÓÏî          
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//é”Ÿæ–¤æ‹·é”Ÿçš†ï¿½  
+	            R.layout.listitem,//ListItemé”Ÿæ–¤æ‹·XMLå®é”Ÿæ–¤æ‹·  
+	            //é”Ÿæ–¤æ‹·æ€é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ImageItemé”Ÿæ–¤æ‹·åº”é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·          
 	            new String[] {"ItemStarHeadImage","ItemClockName", "ItemClockTime","ItemClockData","ItemClockLastTime"},   
-	            //ImageItemµÄXMLÎÄ¼şÀïÃæµÄÒ»¸öImageView,Á½¸öTextView ID  
+	            //ImageItemé”Ÿæ–¤æ‹·XMLé”Ÿä¾¥ç¡·æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ­ä¼™æ‹·é”Ÿçµ€mageView,é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·TextView ID  
 	            new int[] {R.id.ItemStarHeadImage,R.id.ItemClockName,R.id.ItemClockTime,R.id.ItemClockData, R.id.ItemClockLastTime}  
 	        );
 		
-		//Ìí¼Ó²¢ÇÒÏÔÊ¾  
+		//é”Ÿæ–¤æ‹·ç¡¬é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿç»ï¿½ 
         list.setAdapter(listItemAdapter);  
           
-        //Ìí¼Óµã»÷  
+        //é”Ÿæ–¤æ‹·æ‹¥é”Ÿæ–¤æ‹·  
         list.setOnItemClickListener(new OnItemClickListener() {  
   
             @Override  
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,  
                     long arg3) {  
-                setTitle("µã»÷µÚ"+arg2+"¸öÏîÄ¿");  
+               // setTitle("é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½+arg2+"é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ç›®");  
             }  
         });  
-        //Ìí¼Ó³¤°´µã»÷  
+        //é”Ÿæ–¤æ‹·æ˜ é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·  
         list.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
             @Override  
             public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
-                menu.setHeaderTitle("³¤°´²Ëµ¥-ContextMenu");     
-                menu.add(0, 0, 0, "µ¯³ö³¤°´²Ëµ¥0");  
-                menu.add(0, 1, 0, "µ¯³ö³¤°´²Ëµ¥1");     
+                menu.setHeaderTitle("é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿå‰¿ç¢‰æ‹·-ContextMenu");     
+                menu.add(0, 0, 0, "é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿå‰¿ç¢‰æ‹·0");  
+                menu.add(0, 1, 0, "é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿå‰¿ç¢‰æ‹·1");     
             }  
         });    
        

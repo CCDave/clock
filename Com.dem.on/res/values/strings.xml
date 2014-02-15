@@ -9,5 +9,7 @@
     <string name="myclcok">My Clock</string>
     <string name="stars">Stars</string>
     <string name="record">Record</string>
+    <string name="setup">SetUp</string>
+    <string name="_sdcard_recording_">/sdcard/Recording/</string>
 
 </resources>

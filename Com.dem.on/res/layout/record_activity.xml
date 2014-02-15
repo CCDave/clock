@@ -30,7 +30,7 @@
 	<ListView
     	android:divider="@drawable/liner"
     	android:dividerHeight="1dip"
-        android:id="@+id/ListViewClock"
+        android:id="@+id/ListViewRecord"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/white"
@@ -38,5 +38,22 @@
         android:layout_below="@id/HeadMyColckcontent"
         >
     </ListView>
+    
+	<RelativeLayout
+                android:id="@+id/recordframe"
+                android:layout_width="fill_parent"
+                android:layout_height="70dip"
+          		android:layout_alignParentBottom ="true"
+                >           
+ 				<Button
+    				android:id="@+id/ButtonRecord"
+    				android:layout_width="180dip"
+    				android:layout_height="wrap_content"
+    				android:layout_centerHorizontal="true"
+    				android:layout_centerVertical="true"
+    				android:text="@string/record"
+    				android:layout_alignTop="@id/ItemClockTime" 
+    				/>
+    </RelativeLayout>
     
 </RelativeLayout>

@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.dem.on.R;
+
+
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
@@ -15,18 +18,29 @@ import android.view.ContextMenu;
 import android.widget.AdapterView;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnCreateContextMenuListener;
-
-
+import android.widget.Button;
+import android.view.View.OnClickListener;
 
 
 public class Clock extends Activity {
 
 	private ListView list;
+	private Button btAddClock;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.clock_activity);    
-
+        setContentView(R.layout.clock_activity);   
+        
+        btAddClock = (Button)findViewById(R.id.ButtonAddClock);
+        btAddClock.setOnClickListener(new OnClickListener(){
+            public void onClick(View v){
+            //装换视图切换到新的视图
+            Intent it = new Intent(Clock.this, addclock.class);
+			
+			startActivity(it);
+        	}
+        });
+        
         this.initMidListView();
     }
     

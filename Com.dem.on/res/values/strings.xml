@@ -11,5 +11,8 @@
     <string name="record">Record</string>
     <string name="setup">SetUp</string>
     <string name="_sdcard_recording_">/sdcard/Recording/</string>
-
+	<string name="jiahao">+</string>
+	<string name="setnewclock">设置闹钟</string>
+	<string name="quxiao">取消</string>
+	<string name="queding">确定</string>
 </resources>

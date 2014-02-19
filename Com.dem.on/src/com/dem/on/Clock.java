@@ -21,7 +21,6 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 
-
 public class Clock extends Activity {
 
 	private ListView list;
@@ -36,7 +35,7 @@ public class Clock extends Activity {
             public void onClick(View v){
             //装换视图切换到新的视图
             Intent it = new Intent(Clock.this, addclock.class);
-			
+
 			startActivity(it);
         	}
         });
@@ -87,7 +86,7 @@ private void initMidListView() {
                     long arg3) {  
                //进入个人主页
             }  
-        });  
+        });
         //弹出菜单  
         list.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
             @Override  

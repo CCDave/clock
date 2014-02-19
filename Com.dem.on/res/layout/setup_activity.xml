@@ -30,7 +30,7 @@
 	<ListView
     	android:divider="@drawable/liner"
     	android:dividerHeight="1dip"
-        android:id="@+id/ListViewClock"
+        android:id="@+id/ListViewUserData"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/white"

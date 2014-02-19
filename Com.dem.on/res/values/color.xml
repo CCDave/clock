@@ -12,5 +12,6 @@
 	<color name="white">#ffffffff</color>
 	<color name="black">#000000</color>
 	<color name="green">#66CDAA</color>
-	
+	<color name="TextColor">#FFFFFF</color>
+    <color name="bgColor">#000000</color>
 </resources>

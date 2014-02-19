@@ -26,7 +26,7 @@ public class MainActivity extends TabActivity {
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 	private GestureDetector gestureDetector;
 	View.OnTouchListener gestureListener;
-	
+	private static boolean bfistflag = false;
 	
 	int currentView = 0;
 	private static int maxTabIndex = 3;
@@ -37,6 +37,11 @@ public class MainActivity extends TabActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		if (!bfistflag){
+			firstload();
+			bfistflag = true;
+		}
+		
         setContentView(R.layout.activity_main);
 		tabHost = getTabHost();
 		//UtilVar.activities.add(MainActivity.this);
@@ -52,7 +57,11 @@ public class MainActivity extends TabActivity {
 			}
 		};
     }
-    
+    private void firstload(){
+    	Intent it = new Intent(MainActivity.this, TestWeiXinWhatsNewActivity.class);
+
+		startActivity(it);
+    }
     private void setTabs()
 	{
     	addTab("clock", R.drawable.tab_clock, Clock.class);

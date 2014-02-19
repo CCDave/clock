@@ -2,16 +2,22 @@ package com.dem.on;
 
 
 
+import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,12 +30,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import android.widget.TextView;
+import com.dem.on.MySQLiteWorker;
 
 
 public class addclock extends Activity implements OnTouchListener , OnClickListener{
-
 	
 	String[] num={"只响一次","每天","法定工作日（智能跳过节假日）","周一至周五","自定义"};
 	
@@ -50,7 +55,9 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	
 	private static  int MAX_CENT = 60;
 	private static  int TIME_CENT = 30;
-
+	
+	MySQLiteWorker sql = null;
+	
 	LinearLayout fram_hour;
 	LinearLayout fram_cent;
 	
@@ -61,6 +68,8 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	RelativeLayout fram_beizhu;
 	
 	Button btquxiao;
+	Button btqueding;
+	Calendar calendar;
 	
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +79,9 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.addclock_activity);   
         
-        
+        sql = new MySQLiteWorker(this);
+        //sql.CreateDataTable(MySQLiteOpenHelper.TABLE_NAME);
+        testDataBase();
         gestureDetector = new GestureDetector(new MyGestureDetector());
         
         fram_hour = (LinearLayout) findViewById(R.id.setclocltimehour);	
@@ -94,6 +105,16 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         btquxiao = (Button) findViewById(R.id.ButtonAddClock_quxiao);	
         btquxiao.setOnClickListener(this);
         
+        btqueding = (Button) findViewById(R.id.ButtonAddClock_queding);	
+        btqueding.setOnClickListener(this);
+        
+        calendar = Calendar.getInstance();
+        TIME_HOUR = calendar.get(Calendar.HOUR_OF_DAY); 
+        TIME_CENT = calendar.get(Calendar.MINUTE);
+        
+        sethourtext();
+        setcenttext();
+        
 		/*gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (gestureDetector.onTouchEvent(event)) {
@@ -104,10 +125,83 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		};*/
     }
 	
+	
+	public void testDataBase(){
+		if (sql == null){
+			Log.i("DataBase", "sql ======null");
+			return ;
+		}
+		
+		//String ID = "id";
+		String NAME = "name";
+		String RECORD_DIR = "record_dir";
+		String PICTURE_DIR = "picture_dir";
+		String TIME = "time";
+		String WAY = "way";
+		
+		/*for (int i =0; i < 10; i++)
+		{
+			ContentValues cv = new ContentValues();
+			cv.put(NAME, i+"111");
+			cv.put(RECORD_DIR, i+"222");
+			cv.put(PICTURE_DIR, i+"333");
+			cv.put(TIME, i+"444");
+			cv.put(WAY, i+"555");
+			sql.InsertData(cv);
+		}*/
+		
+		sql.EnumDataBase(MySQLiteOpenHelper.TABLE_NAME);
+		Log.i("DataBase", "*************************************************************");
+		sql.DeleteData(MySQLiteOpenHelper.TABLE_NAME, 0);
+		sql.EnumDataBase(MySQLiteOpenHelper.TABLE_NAME);
+		
+		Log.i("DataBase", "*************************************************************");
+		sql.DeleteData(MySQLiteOpenHelper.TABLE_NAME, 10);
+		sql.EnumDataBase(MySQLiteOpenHelper.TABLE_NAME);
+		
+		Log.i("DataBase", "*************************************************************");
+		ContentValues cv = new ContentValues();
+		cv.put(NAME, "fff");
+		cv.put(RECORD_DIR, "fff");
+		cv.put(PICTURE_DIR, "fff");
+		cv.put(TIME, "fff");
+		cv.put(WAY, "fff");
+		sql.UpdateData(MySQLiteOpenHelper.TABLE_NAME, 7, cv);
+		sql.EnumDataBase(MySQLiteOpenHelper.TABLE_NAME);
+		
+	}
+	public void getClockTimeLong(){
+		//先获取当前时间
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		int mHour = calendar.get(Calendar.HOUR_OF_DAY);
+		int mMinute = calendar.get(Calendar.MINUTE);
+		
+		//获取字体时间
+		int tHour = 0;
+		int tCent = 0;
+		
+		//算出时间长度
+		if (mHour < TIME_HOUR)
+			tHour = TIME_HOUR - mHour;
+		else
+			tHour =  24 - mHour + TIME_HOUR;
+		
+		if (mMinute > TIME_CENT)
+		{
+			tCent = 60 - mMinute + TIME_CENT;
+			tHour--;
+		}
+		else
+			tCent = TIME_CENT - mMinute;
+		
+		String str = "还有" + Integer.toString(tHour) + "小时" + Integer.toString(tCent)+ "分响铃";
+		TextView text = (TextView) findViewById(R.id.addclocksettimelongtext);	
+		text.setText(str);
+	}
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub           
-	        
+		// TODO Auto-generated method stub
 	        final int action = event.getAction();
 	        switch (action) {    
 	        case MotionEvent.ACTION_DOWN: 
@@ -148,7 +242,6 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 					} catch (Exception e) {
 					}
 	        	}
-	        	
 	        	if (flag_which_view == R.id.setclocltimecent){
 	        		
 		        	try {
@@ -239,7 +332,6 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 				hour5 = TIME_HOUR + 2;
 			}
 		
-		
 		TextView thour1 = (TextView) findViewById(R.id.texthour1);	
 		thour1.setText( Integer.toString(hour1));
 		TextView thour2 = (TextView) findViewById(R.id.texthour2);	
@@ -250,6 +342,8 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		thour4.setText( Integer.toString(hour4));
 		TextView thour5 = (TextView) findViewById(R.id.texthour5);	
 		thour5.setText( Integer.toString(hour5));
+		
+		getClockTimeLong();
 		
 	}
 	
@@ -300,7 +394,6 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			cent5 = TIME_CENT + 2;
 			}
 		
-		
 		TextView thour1 = (TextView) findViewById(R.id.textcent1);	
 		thour1.setText( Integer.toString(cent1));
 		TextView thour2 = (TextView) findViewById(R.id.textcent2);	
@@ -311,6 +404,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		thour4.setText( Integer.toString(cent4));
 		TextView thour5 = (TextView) findViewById(R.id.textcent5);	
 		thour5.setText( Integer.toString(cent5));
+		getClockTimeLong();
 		
 	}
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,  
@@ -393,7 +487,6 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		
 		switch(id)
 		{
-		
 		case R.id.fram_chongfu:
 			Log.i("test", "22222222222222");
 			
@@ -402,20 +495,16 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
             new AlertDialog.Builder(addclock.this)  
             .setTitle("选择")  
             .setItems(num, new DialogInterface.OnClickListener() {  
-                public void onClick(DialogInterface dialog, int which) {  
-                    //button.setText(num[which]);  
+                public void onClick(DialogInterface dialog, int which) {    
                     Toast info =Toast.makeText(addclock.this, num[which],Toast.LENGTH_LONG);  
                     info.setMargin(0.0f, 0.3f);  
-                    info.show();  
-                    
+                    info.show(); 
                     TextView chongfu = (TextView) findViewById(R.id.chongfu_item);	
-                    chongfu.setText( num[which]);
+                    chongfu.setText(num[which]);
                 }  
             }  
             )  
-            .setView(myLoginView).create().show();  
-              
-        
+            .setView(myLoginView).create().show();
 			break;
 		case R.id.fram_lingsheng:
 			Log.i("test", "1111111111111");
@@ -432,6 +521,16 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			Intent it = new Intent(addclock.this, MainActivity.class);
 			startActivity(it);
 			break;
+			
+		case R.id.ButtonAddClock_queding:
+			Log.i("test", "6666666666666");
+			//1.开启闹钟
+			startclock();
+			//2.写入数据库
+			AddNewClockToDataBase();
+			//3.返回主界面		
+			returnToMain();
+			break;
 		default:
 			break;
 			
@@ -439,6 +538,43 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		
 		}
 		
-	
-	
+	public void startclock(){
+
+		calendar.setTimeInMillis(System
+				.currentTimeMillis());
+		calendar.set(Calendar.HOUR_OF_DAY, TIME_HOUR);
+		calendar.set(Calendar.MINUTE, TIME_CENT);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		/* 建立Intent和PendingIntent，来调用目标组件 */
+		Intent intent = new Intent(addclock.this,
+				AlarmReceiver.class);
+		PendingIntent pendingIntent = PendingIntent
+				.getBroadcast(addclock.this, 0,
+						intent, 0);
+		AlarmManager am;
+		/* 获取闹钟管理的实例 */
+		am = (AlarmManager) getSystemService(ALARM_SERVICE);
+		/* 设置闹钟 */
+		am.set(AlarmManager.RTC_WAKEUP, calendar
+				.getTimeInMillis(), pendingIntent);
+		/* 设置周期闹 */
+		am.setRepeating(AlarmManager.RTC_WAKEUP, System
+				.currentTimeMillis()
+				+ (10 * 1000), (24 * 60 * 60 * 1000),
+				pendingIntent);
+	}
+	public void AddNewClockToDataBase(){
+		
+	}
+	public void returnToMain(){
+		//跳回主界面并显示
+				Intent OkPage = new Intent();
+				OkPage.setClass(addclock.this, MainActivity.class);
+			    Bundle bundle = new Bundle();
+			    bundle.putString("name", "shuju");
+			    bundle.putDouble("height", 123.123);
+			    OkPage.putExtras(bundle);
+			    startActivity(OkPage);
+	}
 }

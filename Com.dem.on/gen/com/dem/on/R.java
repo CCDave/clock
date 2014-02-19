@@ -58,28 +58,36 @@ public final class R {
         public static final int ic_launcher=0x7f02000d;
         public static final int icon=0x7f02000e;
         public static final int liner=0x7f02000f;
-        public static final int search_normal=0x7f020010;
-        public static final int search_selected=0x7f020011;
-        public static final int tab_clock=0x7f020012;
-        public static final int tab_focus=0x7f020013;
-        public static final int tab_indicator=0x7f020014;
-        public static final int tab_press=0x7f020015;
-        public static final int tab_record=0x7f020016;
-        public static final int tab_search=0x7f020017;
-        public static final int tab_selected=0x7f020018;
-        public static final int tab_stars=0x7f020019;
-        public static final int tab_unselected=0x7f02001a;
-        public static final int timenumber=0x7f02001b;
-        public static final int wenzhang=0x7f02001c;
+        public static final int mic_2=0x7f020010;
+        public static final int mic_3=0x7f020011;
+        public static final int mic_4=0x7f020012;
+        public static final int mic_5=0x7f020013;
+        public static final int round_background=0x7f020014;
+        public static final int search_normal=0x7f020015;
+        public static final int search_selected=0x7f020016;
+        public static final int tab_clock=0x7f020017;
+        public static final int tab_focus=0x7f020018;
+        public static final int tab_indicator=0x7f020019;
+        public static final int tab_press=0x7f02001a;
+        public static final int tab_record=0x7f02001b;
+        public static final int tab_search=0x7f02001c;
+        public static final int tab_selected=0x7f02001d;
+        public static final int tab_stars=0x7f02001e;
+        public static final int tab_unselected=0x7f02001f;
+        public static final int timenumber=0x7f020020;
+        public static final int wenzhang=0x7f020021;
     }
     public static final class id {
         public static final int ButtonAddClock=0x7f09001f;
         public static final int ButtonAddClock_queding=0x7f090002;
         public static final int ButtonAddClock_quxiao=0x7f090003;
+        public static final int ButtonAddPicture=0x7f09002e;
         public static final int ButtonControl=0x7f090027;
-        public static final int ButtonRecord=0x7f09002b;
+        public static final int ButtonPlayRecord=0x7f09002b;
+        public static final int ButtonRecord_btn=0x7f09002f;
+        public static final int ButtonUpload=0x7f090030;
         public static final int HeadMyColckcontent=0x7f09001d;
-        public static final int HeadMyStarscontent=0x7f09002c;
+        public static final int HeadMyStarscontent=0x7f090032;
         public static final int ItemClockData=0x7f090025;
         public static final int ItemClockLastTime=0x7f090026;
         public static final int ItemClockName=0x7f090023;
@@ -87,26 +95,29 @@ public final class R {
         public static final int ItemMyClock=0x7f09001e;
         public static final int ItemRecord=0x7f090028;
         public static final int ItemStarHeadImage=0x7f090022;
-        public static final int ItemStars=0x7f09002d;
+        public static final int ItemStars=0x7f090033;
         public static final int Itemsetnewclock=0x7f090001;
-        public static final int ListStars=0x7f09002e;
+        public static final int ListStars=0x7f090034;
         public static final int ListViewClock=0x7f090020;
         public static final int ListViewRecord=0x7f090029;
         public static final int RelativeLayout01=0x7f090021;
-        public static final int action_settings=0x7f090030;
+        public static final int TextRecordTime=0x7f09002c;
+        public static final int ViewPictureInRecord=0x7f09002a;
+        public static final int action_settings=0x7f090036;
         public static final int addColckHeadcontent=0x7f090000;
         public static final int addclocksettimeclock=0x7f090005;
         public static final int addclocksettimeitem=0x7f090012;
         public static final int addclocksettimelongtext=0x7f090004;
         public static final int beizhu=0x7f09001c;
         public static final int chongfu_item=0x7f090015;
+        public static final int clickstartplayrecord=0x7f090031;
         public static final int fram_beizhu=0x7f09001b;
         public static final int fram_chongfu=0x7f090013;
         public static final int fram_lingsheng=0x7f090016;
         public static final int fram_zhendong=0x7f090019;
         public static final int lingsheng=0x7f090017;
         public static final int lingsheng_item=0x7f090018;
-        public static final int recordframe=0x7f09002a;
+        public static final int recordframe=0x7f09002d;
         public static final int setclocltimecent=0x7f09000c;
         public static final int setclocltimehour=0x7f090006;
         public static final int textcent1=0x7f09000d;
@@ -120,7 +131,7 @@ public final class R {
         public static final int texthour3=0x7f090009;
         public static final int texthour4=0x7f09000a;
         public static final int texthour5=0x7f09000b;
-        public static final int title=0x7f09002f;
+        public static final int title=0x7f090035;
         public static final int zhendong=0x7f09001a;
     }
     public static final class layout {
@@ -130,28 +141,33 @@ public final class R {
         public static final int listitem=0x7f030003;
         public static final int popdlg=0x7f030004;
         public static final int record_activity=0x7f030005;
-        public static final int setup_activity=0x7f030006;
-        public static final int stars_activity=0x7f030007;
-        public static final int starts_list=0x7f030008;
-        public static final int tab_indicator=0x7f030009;
+        public static final int recordlistitem=0x7f030006;
+        public static final int setup_activity=0x7f030007;
+        public static final int stars_activity=0x7f030008;
+        public static final int starts_list=0x7f030009;
+        public static final int tab_indicator=0x7f03000a;
     }
     public static final class menu {
         public static final int main=0x7f080000;
     }
     public static final class string {
-        public static final int _sdcard_recording_=0x7f060009;
+        public static final int _sdcard_recording_=0x7f06000b;
         public static final int action_settings=0x7f060001;
+        public static final int addpicture=0x7f060010;
         public static final int app_name=0x7f060000;
         public static final int des=0x7f060004;
         public static final int hello_world=0x7f060002;
-        public static final int jiahao=0x7f06000a;
+        public static final int jiahao=0x7f06000c;
         public static final int myclcok=0x7f060005;
-        public static final int queding=0x7f06000d;
-        public static final int quxiao=0x7f06000c;
+        public static final int playrecord=0x7f060008;
+        public static final int queding=0x7f06000f;
+        public static final int quxiao=0x7f06000e;
         public static final int record=0x7f060007;
-        public static final int setnewclock=0x7f06000b;
-        public static final int setup=0x7f060008;
+        public static final int setnewclock=0x7f06000d;
+        public static final int setup=0x7f06000a;
         public static final int stars=0x7f060006;
+        public static final int stoprecord=0x7f060009;
+        public static final int upload=0x7f060011;
         public static final int welcom=0x7f060003;
     }
     public static final class style {
@@ -181,6 +197,7 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int like_toast_dialog_style=0x7f070003;
         public static final int notitle=0x7f070002;
     }
 }

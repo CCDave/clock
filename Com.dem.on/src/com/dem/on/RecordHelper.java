@@ -225,22 +225,25 @@ public class RecordHelper implements OnCompletionListener, OnErrorListener {
     }
     
     
-    public void startPlayback() {
+    public void startPlayback(String str) {
         stop();
-        
+        Log.i("path",str);
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(mSampleFile.getAbsolutePath());
+            mPlayer.setDataSource(str);
             mPlayer.setOnCompletionListener(this);
             mPlayer.setOnErrorListener(this);
             mPlayer.prepare();
             mPlayer.start();
+            Log.i("secced",str);
         } catch (IllegalArgumentException e) {
             setError(INTERNAL_ERROR);
             mPlayer = null;
+            Log.i("error",str);
             return;
         } catch (IOException e) {
             setError(SDCARD_ACCESS_ERROR);
+            Log.i("error",str);
             mPlayer = null;
             return;
         }
@@ -260,8 +263,8 @@ public class RecordHelper implements OnCompletionListener, OnErrorListener {
     }
     
     public void stop() {
-        stopRecording();
         stopPlayback();
+        stopRecording();
     }
 
     public boolean onError(MediaPlayer mp, int what, int extra) {

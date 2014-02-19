@@ -85,10 +85,10 @@ private void initMidListView() {
             @Override  
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,  
                     long arg3) {  
-               // setTitle("锟斤拷锟斤拷锟�+arg2+"锟斤拷锟斤拷目");  
+               //进入个人主页
             }  
         });  
-        //锟斤拷映锟斤拷锟斤拷锟斤拷  
+        //弹出菜单  
         list.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
             @Override  
             public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  

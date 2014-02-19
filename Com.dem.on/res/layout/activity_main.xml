@@ -28,5 +28,4 @@
                 android:background="@color/white"/>
         </LinearLayout>
     </TabHost>
-    
 </RelativeLayout>

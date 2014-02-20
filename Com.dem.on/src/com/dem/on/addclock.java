@@ -41,11 +41,15 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	String[] num={"只响一次","每天","法定工作日（智能跳过节假日）","周一至周五","自定义"};
 	String[] switchSound={"本地","明星"};
 	private String strSelectMusicDir = "";
+	private int nflagaddorupdata = 0;
+	private int nUpdataId = 0;
+	
 	private static final int SWIPE_MIN_DISTANCE = 120;
 	private static final int SWIPE_MIN_DISTANCE_CENT = 80;
 	private static final int SWIPE_MAX_OFF_PATH = 250;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-	
+	private static final int FLAG_UPDATA = 2;
+	private static final int FLAG_NEWDATA = 1;
 	private static final int SELECT_LOCAL_MUSIC = 10;
 	
 	private GestureDetector gestureDetector;
@@ -87,7 +91,13 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         sql = new MySQLiteWorker(this);
         
         testDataBase();
-        
+        Bundle bundle = this.getIntent().getExtras();
+        nflagaddorupdata = bundle.getInt("flag");
+        if (nflagaddorupdata == FLAG_UPDATA)
+		{
+        	nUpdataId = bundle.getInt("updataid");
+		}
+        Log.i("flag===================", ""+nflagaddorupdata);
         gestureDetector = new GestureDetector(new MyGestureDetector());
         
         fram_hour = (LinearLayout) findViewById(R.id.setclocltimehour);	
@@ -131,7 +141,10 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		};*/
     }
 	
-	
+	public void InitMyself(){
+		//初始化数据
+		
+	}
 	public void testDataBase(){
 		if (sql == null){
 			Log.i("DataBase", "sql ======null");
@@ -579,6 +592,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			Log.i("test", "55555555555555");
 			Intent it = new Intent(addclock.this, MainActivity.class);
 			startActivity(it);
+			finish();
 			break;
 			
 		case R.id.ButtonAddClock_queding:
@@ -588,13 +602,10 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 				  Toast.makeText(addclock.this, "请选择声音！",
 							Toast.LENGTH_SHORT).show();
 			   return;
-			  }
-			  
-			
+			}
 			Log.i("test", "6666666666666");
 			//1.开启闹钟
 			startclock();
-			
 			//2.写入数据库
 			AddNewClockToDataBase();
 			//3.返回主界面并传送消息		
@@ -662,13 +673,13 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		//闹钟时间
 		String clockTime = TIME_HOUR +":"+ TIME_CENT; 
 		//用户名
-		String userName = "";
+		String userName = "username";
 		//发布时间
-		String uploadtime = "";
+		String uploadtime = "uploadtime";
 		//头像图像路径
-		String headdir = "";
+		String headdir = "headdir";
 		//使用次数
-		String usetime = "";
+		String usetime = "usetime";
 		
 		cv.put(NAME, "0");
 		cv.put(RECORD_DIR, "0");
@@ -684,8 +695,15 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		cv.put(UPLOADTIME, uploadtime);
 		cv.put(HEAD_DIR, headdir);
 		cv.put(USE_TIMES, usetime);
-		
-		sql.InsertData(cv);	
+		if (nflagaddorupdata == FLAG_NEWDATA){
+			Log.i("tianjiashuju", "****************************");
+			sql.InsertData(cv);	
+		}
+		if (nflagaddorupdata == FLAG_UPDATA)
+		{
+			Log.i("gengxinshuju", "****************************");
+			sql.UpdateData(MySQLiteOpenHelper.TABLE_NAME, nUpdataId, cv);
+		}
 	}
 	
 	public void returnToMain(){
@@ -696,7 +714,8 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			    bundle.putString("name", "shuju");
 			    bundle.putDouble("height", 123.123);
 			    OkPage.putExtras(bundle);
-			    startActivity(OkPage);
+			    setResult(RESULT_OK, OkPage);
+			    finish();
 	}
 	
 	private String GetViewString(int ID){

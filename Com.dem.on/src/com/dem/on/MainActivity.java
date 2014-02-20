@@ -38,7 +38,7 @@ public class MainActivity extends TabActivity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		if (!bfistflag){
-			firstload();
+			//firstload();
 			bfistflag = true;
 		}
 		
@@ -59,7 +59,6 @@ public class MainActivity extends TabActivity {
     }
     private void firstload(){
     	Intent it = new Intent(MainActivity.this, TestWeiXinWhatsNewActivity.class);
-
 		startActivity(it);
     }
     private void setTabs()
@@ -67,7 +66,7 @@ public class MainActivity extends TabActivity {
     	addTab("clock", R.drawable.tab_clock, Clock.class);
     	addTab("stars", R.drawable.tab_stars, stars.class);
     	addTab("record", R.drawable.tab_record, record.class);
-    	addTab("setup", R.drawable.tab_record, setup.class);
+    	addTab("setup", R.drawable.tab_setup, setup.class);
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c)
@@ -81,9 +80,7 @@ public class MainActivity extends TabActivity {
 		spec.setContent(intent);
 		tabHost.addTab(spec);
 	}
-	
-	// ���һ����պ�ҳ��Ҳ�л���Ч��
-		class MyGestureDetector extends SimpleOnGestureListener {
+	class MyGestureDetector extends SimpleOnGestureListener {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 					float velocityY) {
@@ -116,7 +113,7 @@ public class MainActivity extends TabActivity {
 				return false;
 			}
 		}
-
+		
 		@Override
 		public boolean dispatchTouchEvent(MotionEvent event) {
 			if (gestureDetector.onTouchEvent(event)) {
@@ -124,11 +121,4 @@ public class MainActivity extends TabActivity {
 			}
 			return super.dispatchTouchEvent(event);
 		}
-
-		/*@Override
-		public boolean onCreateOptionsMenu(Menu menu) {
-			getMenuInflater().inflate(R.menu.activity_main, menu);
-			return true;
-		}*/
-
 }

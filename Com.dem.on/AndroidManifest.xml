@@ -41,6 +41,8 @@
          <activity android:name=".TestWeiXinWhatsNewActivity"/>
          <receiver android:name=".AlarmReceiver" android:process=":remote" />
          <activity android:name=".OtherActivity"></activity>
+         <activity android:name=".musicActivity"></activity>
+         
     </application>
  
 </manifest>

@@ -14,4 +14,6 @@
 	<color name="green">#66CDAA</color>
 	<color name="TextColor">#FFFFFF</color>
     <color name="bgColor">#000000</color>
+    <color name="red">#FF0000</color>
+    
 </resources>

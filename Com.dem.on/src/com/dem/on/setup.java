@@ -12,39 +12,32 @@ import android.app.Activity;
 
 public class setup extends Activity{
 	
-	private ListView list;
+	private ListView list = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setup_activity);    
+        setContentView(R.layout.setup_activity);   
+        InitListView();
     }
 	public void InitListView(){
+		
 		list = (ListView) findViewById(R.id.ListViewUserData);
+		list.setVerticalScrollBarEnabled(false);
 ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();  
-        map.put("ItemStarHeadImage", R.drawable.wenzhang);
-        map.put("ItemClockName", "锟斤拷锟斤拷锟斤拷");  
-        map.put("ItemClockTime", "07:30");  
-        map.put("ItemClockData", "锟斤拷一锟斤拷锟斤拷锟斤拷"); 
-        map.put("ItemClockLastTime", ""); 
-        listItem.add(map);  
-        //添加每个item的资源
-        HashMap<String, Object> map2 = new HashMap<String, Object>();  
-        map2.put("ItemStarHeadImage", R.drawable.gaoyuanyuan);
-        map2.put("ItemClockName", "锟斤拷睡锟斤拷锟斤拷");  
-        map2.put("ItemClockTime", "23:00");  
-        map2.put("ItemClockData", "每锟斤拷"); 
-        map2.put("ItemClockLastTime", "锟斤拷锟斤拷7小时30锟斤拷锟斤拷"); 
-        listItem.add(map2);  
-        
+        map.put("ItemBigPicture", R.drawable.wenzhang);
+        map.put("Itemwhenupload", "1小时前");  
+        map.put("ItemUserName", "高富帅");  
+        map.put("UserPeople", "3049587次使用"); 
+        map.put("ItemTimeLong", "01：00"); 
+        map.put("ItemTextContent", "这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,这是一段测试的代码,"); 
+        listItem.add(map);
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,
-	            R.layout.listitem,  //listView对应的资源ID
-	            new String[] {"ItemStarHeadImage","ItemClockName", "ItemClockTime","ItemClockData","ItemClockLastTime"},   
-	            //ImageItem锟斤拷XML锟侥硷拷锟斤拷锟斤拷锟揭伙拷锟絀mageView,锟斤拷锟斤拷TextView ID  
-	            new int[] {R.id.ItemStarHeadImage,R.id.ItemClockName,R.id.ItemClockTime,R.id.ItemClockData, R.id.ItemClockLastTime}  
+	            R.layout.userdatalistitem,  //listView对应的资源ID
+	            new String[] {"ItemBigPicture","Itemwhenupload", "ItemUserName","UserPeople","ItemTimeLong","ItemTextContent"},     
+	            new int[] {R.id.ItemBigPicture,R.id.Itemwhenupload,R.id.ItemUserName,R.id.UserPeople, R.id.ItemTimeLong, R.id.ItemTextContent}  
 	        );
-		
 		//锟斤拷硬锟斤拷锟斤拷锟绞� 
         list.setAdapter(listItemAdapter);  
 	}

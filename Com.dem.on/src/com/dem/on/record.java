@@ -2,6 +2,7 @@ package com.dem.on;
 
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -46,6 +47,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnTouchListener;
+
+
 import com.dem.on.R;
 import com.dem.on.RecordHelper;
 import com.dem.on.MySQLiteOpenHelper;
@@ -65,9 +68,11 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	
 	String[] way={"相机","图库"};
 	
-	private static final int CHOOSE_PICTURE = 1;
-	private static final int PHOTO_WITH_CAMERA = 0;
-	private static final int SCALE = 3;
+
+	private static final int CHOOSE_BIG_PICTURE = 0;
+	private static final int TAKE_BIG_PICTURE = 1;
+	
+	private Uri imageUri = null;
 	
 	private final String RECORD_FILE_NAME = "/mmmm.amr";//"/myTempClock.mp3"
 	private final int MIN_INTERVAL_TIME = 2000;
@@ -93,21 +98,18 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.record_activity); 
+        setContentView(R.layout.record_activity);
+        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"image.jpg"));
         setupDataBase();
         //CreateTable();
         setupViews();
     }
 	
-	
-	
-	
 	public void startPlayback(String strfilname)
 	{
 		mRecorder.startPlayback(strfilname);
 	}
-	
-	
+
 	//初始化
 	@SuppressWarnings("deprecation")
 	public void setupViews() {
@@ -144,8 +146,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		iv_image = (ImageView) findViewById(R.id.ViewPictureInRecord);
 		//btnPlayRecord.setOnClickListener(this);
 		//btnPlayRecord.setVisibility(View.GONE);
-		//initlistview();
-		//refreshList();
+
 	}
 	
 	public void initlistview(){
@@ -244,8 +245,6 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		{
 			if (event.getAction() == MotionEvent.ACTION_DOWN)
 			{
-				//btnStart.setBackgroundResource(R.color.black);
-				//按下按钮开始录音
 				mRecorder.startRecording(MediaRecorder.OutputFormat.DEFAULT,
 	   					".mp3", this);
 				startTime = System.currentTimeMillis();
@@ -389,76 +388,72 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	}
 	
 	private void OpenCamera(){
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //调用系统相机
-        Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"image.jpg"));
-        //指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        //直接使用，没有缩小
-        startActivityForResult(intent, PHOTO_WITH_CAMERA);  //用户点击了从相机获取
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//action is capture
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+		startActivityForResult(intent, TAKE_BIG_PICTURE);
+	
 	}
 	private void OpenAlbum(){
-		Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        openAlbumIntent.setType("image/*");
-        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE); 
+		GetBigPicture();
 }
 
-/** 缩放Bitmap图片 **/
 
-    public Bitmap zoomBitmap(Bitmap bitmap, int width, int height) {
-
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
-        Matrix matrix = new Matrix();
-        float scaleWidth = ((float) width / w);
-        float scaleHeight = ((float) height / h);
-        matrix.postScale(scaleWidth, scaleHeight);// 利用矩阵进行缩放不会造成内存溢出
-        Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
-        return newbmp;
-    }
+   
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+        	Bitmap bitmap = null;
             switch (requestCode) {
 
-            case PHOTO_WITH_CAMERA:
-                //将保存在本地的图片取出并缩小后显示在界面上
-            	Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+"/image.jpg");
-            	Bitmap newBitmap = zoomBitmap(bitmap, bitmap.getWidth() / SCALE, bitmap.getHeight() / SCALE);
-            	//由于Bitmap内存占用较大，这里需要回收内存，否则会报out of memory异常
-                bitmap.recycle();
-                //将处理过的图片显示在界面上，并保存到本地
-				iv_image.setImageBitmap(newBitmap);
-                //savePhotoToSDCard(Environment.getExternalStorageDirectory().getAbsolutePath(), String.valueOf(System.currentTimeMillis()), newBitmap);
-                break;
-                
-            case CHOOSE_PICTURE:
- 
-                ContentResolver resolver = getContentResolver();
-                //照片的原始资源地址
-                Uri originalUri = data.getData();
-                try {
-                    //使用ContentProvider通过URI获取原始图片
-                    Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
-                    if (photo != null) {
-                        //为防止原始图片过大导致内存溢出，这里先缩小原图显示，然后释放原始Bitmap占用的内存
-                        Bitmap smallBitmap = zoomBitmap(photo, photo.getWidth() / SCALE, photo.getHeight() / SCALE);
-                        //释放原始图片占用的内存，防止out of memory异常发生
-                        photo.recycle();                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-                        iv_image.setImageBitmap(smallBitmap);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+            case CHOOSE_BIG_PICTURE:
+            	
+            	 if(imageUri != null){
+            		  bitmap = decodeUriAsBitmap(imageUri);//decode bitmap
+            		  iv_image.setImageBitmap(bitmap);
+            		 }
+            	break;
+            case TAKE_BIG_PICTURE:
+            		if(imageUri != null){
+            			 cropImageUri(imageUri, 700, 800, CHOOSE_BIG_PICTURE);
+           		 	}
+            	break;
             default:
                 break;
             }
         }
     }
+	public void GetBigPicture(){
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+		intent.setType("image/*");
+		intent.putExtra("crop", "true");
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", 700);
+		intent.putExtra("outputY", 800);
+		intent.putExtra("scale", true);
+		intent.putExtra("return-data", false);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("noFaceDetection", true); // no face detection
+		startActivityForResult(intent, CHOOSE_BIG_PICTURE);
+	}
 	
+	private void cropImageUri(Uri uri, int outputX, int outputY, int requestCode){
+		 Intent intent = new Intent("com.android.camera.action.CROP");
+		 intent.setDataAndType(uri, "image/*");
+		 intent.putExtra("crop", "true");
+		 intent.putExtra("aspectX", 1);
+		 intent.putExtra("aspectY", 1);
+		 intent.putExtra("outputX", outputX);
+		 intent.putExtra("outputY", outputY);
+		 intent.putExtra("scale", true);
+		 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+		 intent.putExtra("return-data", false);
+		 intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		 intent.putExtra("noFaceDetection", true); // no face detection
+		 startActivityForResult(intent, requestCode);
+		}
 
 	/**Save image to the SD card**/
     public static void savePhotoToSDCard(String path, String photoName, Bitmap photoBitmap) {
@@ -497,4 +492,14 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
             }
         }
     }
+    private Bitmap decodeUriAsBitmap(Uri uri){
+    	 Bitmap bitmap = null;
+    	 try {
+    	  bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+    	 } catch (FileNotFoundException e) {
+    	  e.printStackTrace();
+    	  return null;
+    	 }
+    	 return bitmap;
+    	}
 }

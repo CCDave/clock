@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/AbsoluteLayout01"
+	android:orientation="vertical"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:gravity="center"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<TextView android:id="@+id/musicname"
+			android:text="暂无歌曲播放"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"></TextView>
+	<LinearLayout 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:orientation="horizontal">
+		
+		<ImageButton android:id="@+id/last" android:src="@drawable/last"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></ImageButton>
+	
+		<ImageButton android:id="@+id/startc" android:src="@drawable/start"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></ImageButton>
+	
+		<ImageButton android:id="@+id/next" android:src="@drawable/next"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></ImageButton>
+	
+		<ImageButton android:id="@+id/stop" android:src="@drawable/stop"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"></ImageButton>
+	
+		<ImageButton android:id="@+id/sound" android:src="@drawable/sound"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></ImageButton>
+		
+		<ImageButton android:id="@+id/selected" android:src="@drawable/sound"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"></ImageButton>
+	</LinearLayout>
+	
+	<RelativeLayout 
+		android:paddingTop="10dp"
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:gravity="center_vertical">
+		
+		
+		<TextView android:id="@+id/curtimeandtotaltime"
+			android:text="00:00"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			></TextView>
+				
+		<TextView android:id="@+id/curtimeandtotaltime1"
+			android:text="00:00"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			></TextView>
+		
+	
+			
+		<SeekBar android:id="@+id/SeekBar01" 
+			android:paddingTop="15dp"
+			android:layout_width="fill_parent" 
+	   		android:layout_height="wrap_content"	
+			android:max="100" 
+			></SeekBar>	
+	</RelativeLayout>		
+	
+		<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+		<ListView android:id="@id/android:list" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+		android:layout_weight="1"
+		android:drawSelectorOnTop="false" />
+	</LinearLayout>	
+</LinearLayout>

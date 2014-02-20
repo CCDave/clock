@@ -19,4 +19,6 @@
 	<string name="queding">确定</string>
 	<string name="addpicture">添加图片</string>
 	<string name="upload">上传</string>
+	 <string name="about">关于</string>
+    <string name="exit">退出</string>
 </resources>

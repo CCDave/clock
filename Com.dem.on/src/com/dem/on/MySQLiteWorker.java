@@ -25,6 +25,15 @@ public class MySQLiteWorker {
 		String PICTURE_DIR = "picture_dir";
 		String TIME = "time";
 		String WAY = "way";
+		String BEIZHU = "beizhu";
+		String ZHENDONG = "zhendong";
+		String CHONGFU = "chongfu";
+		String LINGSHEN_DIR = "lingshen_dir";
+		String CLOCKTIME = "clocktime";
+		String USERNAME = "username";
+		String UPLOADTIME = "uploadtime";
+		String HEAD_DIR = "head_dir";
+		String USE_TIMES = "use_time";
 		
 		String str_sql2 = "CREATE TABLE " 
 				+ TABLE_NAME 
@@ -37,6 +46,24 @@ public class MySQLiteWorker {
 				+ PICTURE_DIR
 				+ " text,"
 				+ TIME
+				+ " text,"
+				+ BEIZHU
+				+ " text,"
+				+ ZHENDONG
+				+ " text,"
+				+ CHONGFU
+				+ " text,"
+				+ LINGSHEN_DIR
+				+ " text,"
+				+ CLOCKTIME
+				+ " text,"
+				+ USERNAME
+				+ " text,"
+				+ UPLOADTIME
+				+ " text,"
+				+ HEAD_DIR
+				+ " text,"
+				+ USE_TIMES
 				+ " text,"
 				+ WAY
 				+ " text);";
@@ -91,6 +118,13 @@ public class MySQLiteWorker {
 				Log.i("DataBaseItem3", cur.getString(3));
 				Log.i("DataBaseItem4", cur.getString(4));
 				Log.i("DataBaseItem5", cur.getString(5));
+				Log.i("DataBaseItem5", cur.getString(6));
+				Log.i("DataBaseItem5", cur.getString(7));
+				Log.i("DataBaseItem5", cur.getString(8));
+				Log.i("DataBaseItem5", cur.getString(9));
+				Log.i("DataBaseItem5", cur.getString(10));
+				Log.i("DataBaseItem5", cur.getString(11));
+				Log.i("DataBaseItem5", cur.getString(12));
 				
 			}
 		}

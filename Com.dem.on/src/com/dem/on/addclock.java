@@ -2,6 +2,7 @@ package com.dem.on;
 
 
 
+import java.io.File;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -37,11 +39,15 @@ import com.dem.on.MySQLiteWorker;
 public class addclock extends Activity implements OnTouchListener , OnClickListener{
 	
 	String[] num={"只响一次","每天","法定工作日（智能跳过节假日）","周一至周五","自定义"};
-	
+	String[] switchSound={"本地","明星"};
+	private String strSelectMusicDir = "";
 	private static final int SWIPE_MIN_DISTANCE = 120;
 	private static final int SWIPE_MIN_DISTANCE_CENT = 80;
 	private static final int SWIPE_MAX_OFF_PATH = 250;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+	
+	private static final int SELECT_LOCAL_MUSIC = 10;
+	
 	private GestureDetector gestureDetector;
 	View.OnTouchListener gestureListener;
 	
@@ -60,8 +66,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	
 	LinearLayout fram_hour;
 	LinearLayout fram_cent;
-	
-	
+
 	RelativeLayout fram_chongfu;
 	RelativeLayout fram_lingsheng;
 	RelativeLayout fram_zhendong;
@@ -80,8 +85,9 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         setContentView(R.layout.addclock_activity);   
         
         sql = new MySQLiteWorker(this);
-        //sql.CreateDataTable(MySQLiteOpenHelper.TABLE_NAME);
+        
         testDataBase();
+        
         gestureDetector = new GestureDetector(new MyGestureDetector());
         
         fram_hour = (LinearLayout) findViewById(R.id.setclocltimehour);	
@@ -411,10 +417,8 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
             float distanceY)  
   
     {  
-  
         Log.i("MyGesture", "onScroll");  
         return true;  
-  
     }  
 	
 	@Override
@@ -442,6 +446,29 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			event.setAction(MotionEvent.ACTION_CANCEL);
 		}
 		return super.dispatchTouchEvent(event);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch(requestCode)
+		{
+			case (SELECT_LOCAL_MUSIC) :
+			{
+				if (resultCode == Activity.RESULT_OK)
+				{
+					String selectedDir = data.getStringExtra("mic_dir");
+					String selectedName = data.getStringExtra("mic_name");
+					TextView lingsheng = (TextView) findViewById(R.id.lingsheng_item);	
+					lingsheng.setText( selectedName);
+					strSelectMusicDir = selectedDir;
+					Log.i("music_dir", strSelectMusicDir);
+					Toast.makeText(addclock.this, "声音："+selectedName,
+							Toast.LENGTH_SHORT).show();
+				}
+				break;
+			}
+		}
 	}
 	
 	class MyGestureDetector extends SimpleOnGestureListener {
@@ -503,11 +530,43 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
                     chongfu.setText(num[which]);
                 }  
             }  
-            )  
-            .setView(myLoginView).create().show();
+            ).setView(myLoginView).create().show();
 			break;
 		case R.id.fram_lingsheng:
-			Log.i("test", "1111111111111");
+			LayoutInflater layoutInflaterNewSound = LayoutInflater.from(addclock.this);   
+            View myLoginViewNewSound = layoutInflaterNewSound.inflate(R.layout.popdlg, null);   
+            new AlertDialog.Builder(addclock.this)  
+            .setTitle("铃声")  
+            .setItems(switchSound, new DialogInterface.OnClickListener() {  
+                public void onClick(DialogInterface dialog, int which) {
+                	
+                	switch(which)
+                	{
+                	case 0:	
+                			//选择本地
+                			//触发本地对话框获取列表
+                		Intent OkPage = new Intent();
+        				OkPage.setClass(addclock.this, musicActivity.class);
+        			    Bundle bundle = new Bundle();
+        			    bundle.putString("name", "shuju");
+        			    bundle.putDouble("height", 123.123);
+        			    OkPage.putExtras(bundle);
+        			    startActivityForResult(OkPage, SELECT_LOCAL_MUSIC);
+                		break;
+                	case 1:
+                			//选择明星
+                		break;
+                	default:
+                		break;
+                	}
+                    Toast info =Toast.makeText(addclock.this, switchSound[which],Toast.LENGTH_LONG);  
+                    info.setMargin(0.0f, 0.3f);  
+                    info.show(); 
+                    TextView chongfu = (TextView) findViewById(R.id.chongfu_item);	
+                    chongfu.setText(switchSound[which]);
+                }  
+            }  
+            ).setView(myLoginViewNewSound).create().show();  
 			break;
 		case R.id.fram_zhendong:
 			Log.i("test", "3333333333333");
@@ -523,23 +582,33 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			break;
 			
 		case R.id.ButtonAddClock_queding:
+		{
+			File file = new File(strSelectMusicDir);
+			  if (!file.exists()) {
+				  Toast.makeText(addclock.this, "请选择声音！",
+							Toast.LENGTH_SHORT).show();
+			   return;
+			  }
+			  
+			
 			Log.i("test", "6666666666666");
 			//1.开启闹钟
 			startclock();
+			
 			//2.写入数据库
 			AddNewClockToDataBase();
-			//3.返回主界面		
+			//3.返回主界面并传送消息		
 			returnToMain();
+		}
 			break;
 		default:
 			break;
 			
 		}
-		
 		}
 		
 	public void startclock(){
-
+		
 		calendar.setTimeInMillis(System
 				.currentTimeMillis());
 		calendar.set(Calendar.HOUR_OF_DAY, TIME_HOUR);
@@ -566,7 +635,59 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	}
 	public void AddNewClockToDataBase(){
 		
+		String NAME = "name";
+		String RECORD_DIR = "record_dir";
+		String PICTURE_DIR = "picture_dir";
+		String TIME = "time";
+		String WAY = "way";
+		String BEIZHU = "beizhu";
+		String ZHENDONG = "zhendong";
+		String CHONGFU = "chongfu";
+		String LINGSHEN_DIR = "lingshen_dir";
+		String CLOCKTIME = "clocktime";
+		String USERNAME = "username";
+		String UPLOADTIME = "uploadtime";
+		String HEAD_DIR = "head_dir";
+		String USE_TIMES = "use_time";
+		
+		ContentValues cv = new ContentValues();
+		//备注
+		String beizhu = GetViewString(R.id.beizhu);
+		//震动
+		String zhendong = GetViewString(R.id.zhendong);
+		//重复
+		String chongfu_item = GetViewString(R.id.chongfu_item);
+		//铃声路径
+		String lingsheng_item = strSelectMusicDir;
+		//闹钟时间
+		String clockTime = TIME_HOUR +":"+ TIME_CENT; 
+		//用户名
+		String userName = "";
+		//发布时间
+		String uploadtime = "";
+		//头像图像路径
+		String headdir = "";
+		//使用次数
+		String usetime = "";
+		
+		cv.put(NAME, "0");
+		cv.put(RECORD_DIR, "0");
+		cv.put(PICTURE_DIR, "0");
+		cv.put(TIME, "0");
+		cv.put(WAY, "0");
+		cv.put(BEIZHU, beizhu);
+		cv.put(ZHENDONG, zhendong);
+		cv.put(CHONGFU, chongfu_item);
+		cv.put(LINGSHEN_DIR, lingsheng_item);
+		cv.put(CLOCKTIME, clockTime);
+		cv.put(USERNAME, userName);
+		cv.put(UPLOADTIME, uploadtime);
+		cv.put(HEAD_DIR, headdir);
+		cv.put(USE_TIMES, usetime);
+		
+		sql.InsertData(cv);	
 	}
+	
 	public void returnToMain(){
 		//跳回主界面并显示
 				Intent OkPage = new Intent();
@@ -576,5 +697,10 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			    bundle.putDouble("height", 123.123);
 			    OkPage.putExtras(bundle);
 			    startActivity(OkPage);
+	}
+	
+	private String GetViewString(int ID){
+		TextView tx = (TextView) findViewById(ID);
+		return tx.getText().toString();
 	}
 }

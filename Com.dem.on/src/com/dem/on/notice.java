@@ -1,10 +1,14 @@
 package com.dem.on;
-import java.io.File;
 
+import java.io.File;
 import android.os.Bundle;
 import android.util.Log;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.database.Cursor;
+import android.content.DialogInterface;
+import android.content.Intent;
+
 
 public class notice extends Activity{
 	SoundControl sc = null;
@@ -35,8 +39,32 @@ public class notice extends Activity{
 					sc = new SoundControl(1);
 				}
 				sc.playMusic(strdir);
+				
+				AlertDialog.Builder dialog=new AlertDialog.Builder(notice.this);
+
+				dialog.setTitle("Dialog")
+				.setMessage("弹出框")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				 @Override
+				 public void onClick(DialogInterface dialog, int which) {
+				 //转跳到另外一个Activity
+				 // TODO Auto-generated method stub
+					 //Intent intent=new Intent();
+					 //intent.setClass(getApplicationContext(), list.class);
+					 //startActivity(intent);
+					 sc.pause();
+					 finish();
+				 }
+				 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+				 public void onClick(DialogInterface dialog, int which) {
+				 // TODO Auto-generated method stub
+					 dialog.cancel();//取消弹出框
+					 sc.pause();
+					 finish();
+				 }
+				 }).create().show();
 			}
         }
-        Log.i("=============================", "11111111111111111111111111111");
     }
 }

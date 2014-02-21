@@ -17,8 +17,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		String msg=intent.getStringExtra("id");
 		//触发闹钟创空
 		Log.i("shujukushifougengxin", msg);
-		
-		
+
 	    Bundle bundle = new Bundle();
 	    bundle.putString("id", msg);
 

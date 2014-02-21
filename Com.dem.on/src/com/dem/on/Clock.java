@@ -11,6 +11,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -45,15 +46,15 @@ public class Clock extends Activity {
 
 	private ListView list;
 	private Button btAddClock;
+	private int nPlayMusic = -1;
 	
-	
-	Calendar calendar;
+	private Calendar calendar;
 	
 	private List<String> myClockId = new ArrayList<String>();
 	private int listItemPosition = 0;
 
 	private ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
-	MySQLiteWorker sql = null;
+	private MySQLiteWorker sql = null;
 	
 	private SoundControl  sc = null;
 	
@@ -95,6 +96,7 @@ private void initMidListView() {
         map.put("ItemClockTime", "07:30");  
         map.put("ItemClockData", "周一到周五"); 
         map.put("ItemClockLastTime", ""); 
+        map.put("ButtonControl_onoff", "0"); 
         listItem.add(map);  
         
         HashMap<String, Object> map2 = new HashMap<String, Object>();  
@@ -103,6 +105,7 @@ private void initMidListView() {
         map2.put("ItemClockTime", "23:00");  
         map2.put("ItemClockData", "周日"); 
         map2.put("ItemClockLastTime", "还有七小时24分"); 
+        map2.put("ButtonControl_onoff", "0"); 
         listItem.add(map2);  
         myClockId.add("1");
         myClockId.add("2");
@@ -134,6 +137,9 @@ private void initMidListView() {
 				maptmp.put("ItemClockData", cur.getString(6)); 
 		        //计算剩余时间
 				maptmp.put("ItemClockLastTime", "还有七小时24分"); 
+				Log.i("444444444444444444", cur.getString(2));
+				maptmp.put("ButtonControl_onoff", cur.getString(2));
+				
 				listItem.add(maptmp); 
 			}
 		}
@@ -293,7 +299,17 @@ private void initMidListView() {
             holder.ItemClockData.setText((String)listItem.get(position).get("ItemClockData"));  
             holder.ItemClockLastTime.setText((String)listItem.get(position).get("ItemClockLastTime"));  
             holder.ItemStarHeadImage.setBackgroundResource((Integer)listItem.get(position).get("ItemStarHeadImage"));
-            holder.ButtonControl_onoff.setTag(position) ;
+            
+            holder.ButtonControl_onoff.setTag(position);
+            String strflag = (String)listItem.get(position).get("ButtonControl_onoff");
+            
+            if( 0 == Integer.valueOf(strflag).intValue()){
+            	
+            	holder.ButtonControl_onoff.setChecked(false);
+            }else if (1 == Integer.valueOf(strflag).intValue()){
+            	
+            	holder.ButtonControl_onoff.setChecked(true);
+            }
             
             //给Button添加单击事件  添加Button之后ListView将失去焦点  需要的直接把Button的焦点去掉  
             holder.ButtonControl_onoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -305,11 +321,15 @@ private void initMidListView() {
             		//获取ID
             		String ID = myClockId.get(position);
             		OpenClock(Integer.valueOf(ID).intValue());
+            		updataopenclock(Integer.valueOf(ID).intValue(), 1);
             		
             	} else {
             	
             		Log.i("2222222222222222", "触发了点击事件");
             		//关闭闹钟
+            		String ID = myClockId.get(position);
+            		deleteClock(Integer.valueOf(ID).intValue());
+            		updataopenclock(Integer.valueOf(ID).intValue(), 0);
             	}
             	}
             	});       
@@ -318,15 +338,34 @@ private void initMidListView() {
             setOnClickListener(new View.OnClickListener() {  
                 @Override  
                 public void onClick(View v) {  
-                	Log.i("anniudianjichenggong", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");  
-                	//播放音乐
-                	playmusic(position);
+                	Log.i("anniudianjichenggong", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
+                	if (nPlayMusic == -1){
+                		//播放音乐
+                    	playmusic(position);
+                    	nPlayMusic = position;
+                	}else if(position == nPlayMusic){
+                		sc.pause();
+                		nPlayMusic = -1;
+                	}else{
+                		sc.pause();
+                		playmusic(position);
+                    	nPlayMusic = position;
+                	}
                 }  
             });  
             return convertView;  
         }  
     }  
-	
+	public void updataopenclock(int Id, int flag){
+		Cursor cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, Integer.valueOf(Id).intValue());
+		if (cur.getCount() != 0){
+			String RECORD_DIR = "record_dir";
+			cur.getString(2);
+			ContentValues cv = new ContentValues();
+			cv.put(RECORD_DIR, ""+flag);
+			sql.UpdateData(MySQLiteOpenHelper.TABLE_NAME, Id, cv);
+		}
+	}
 	public void OpenClock(int ID){
 		
 		Cursor cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, ID);
@@ -339,7 +378,7 @@ private void initMidListView() {
 			Log.i("设置闹铃的时间", ""+TIME_HOUR);
 			Log.i("设置闹铃的时间", ""+TIME_CENT);
 			
-			calendar = Calendar.getInstance();
+			
 			calendar.setTimeInMillis(System
 					.currentTimeMillis());
 			calendar.set(Calendar.HOUR_OF_DAY, TIME_HOUR);
@@ -352,22 +391,40 @@ private void initMidListView() {
 			intent.putExtra("id", ""+ID);
 			
 			PendingIntent pendingIntent = PendingIntent
-					.getBroadcast(Clock.this, 0,
+					.getBroadcast(Clock.this, ID,
 							intent, 0);
 			AlarmManager am;
 			/* 获取闹钟管理的实例 */
 			am = (AlarmManager) getSystemService(ALARM_SERVICE);
+			
 			/* 设置闹钟 */
-			am.set(AlarmManager.RTC_WAKEUP, calendar
-					.getTimeInMillis(), pendingIntent);
-			/* 设置周期闹 */
+			
+			long time = calendar.getTimeInMillis();
+			if (time < System.currentTimeMillis()){
+				time = (System.currentTimeMillis() + 24 * 60 * 60 * 1000) - (System.currentTimeMillis() - time);
+			}
+			Log.i("ssssssssssssss", ""+calendar.getTimeInMillis());
+			Log.i("ssssssssssssss", ""+System.currentTimeMillis());
+			Log.i("ssssssssssssss", ""+time);
+			am.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+			
+			/* 设置周期闹 
 			am.setRepeating(AlarmManager.RTC_WAKEUP, System
 					.currentTimeMillis()
 					+ (10 * 1000), (24 * 60 * 60 * 1000),
-					pendingIntent);
+					pendingIntent);*/
 		}
 	}
-
+	
+	public void deleteClock(int ID){
+		Intent i=new Intent(Clock.this,AlarmReceiver.class); 
+		PendingIntent pi = PendingIntent.getBroadcast(Clock.this, ID , i, 0);  
+		AlarmManager am;
+		/* 获取闹钟管理的实例 */
+		am = (AlarmManager) getSystemService(ALARM_SERVICE);
+		am.cancel(pi);
+	}
+	
 	public final class ViewHolder {   
         public TextView ItemClockName;  
         public TextView ItemClockTime;  

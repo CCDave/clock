@@ -15,5 +15,6 @@
 	<color name="TextColor">#FFFFFF</color>
     <color name="bgColor">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="transparent">#000000</color>
     
 </resources>

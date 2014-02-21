@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 
 
 import android.net.Uri;
@@ -92,11 +93,13 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         
         testDataBase();
         Bundle bundle = this.getIntent().getExtras();
+        
         nflagaddorupdata = bundle.getInt("flag");
         if (nflagaddorupdata == FLAG_UPDATA)
 		{
         	nUpdataId = bundle.getInt("updataid");
 		}
+        
         Log.i("flag===================", ""+nflagaddorupdata);
         gestureDetector = new GestureDetector(new MyGestureDetector());
         
@@ -128,9 +131,12 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         TIME_HOUR = calendar.get(Calendar.HOUR_OF_DAY); 
         TIME_CENT = calendar.get(Calendar.MINUTE);
         
+        if (nflagaddorupdata == FLAG_UPDATA){
+        	InitMyself();
+        }
+        
         sethourtext();
         setcenttext();
-        
 		/*gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (gestureDetector.onTouchEvent(event)) {
@@ -143,6 +149,46 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	
 	public void InitMyself(){
 		//初始化数据
+		Log.i("&&&&&&&&&&&&&&&&&&&&&&&&&", ""+nUpdataId);
+		Cursor  cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, nUpdataId);
+		if (cur.getCount() != 0)
+		{
+			Log.i("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^","");
+			/*Log.i("DataBaseItem0", cur.getString(0));
+			Log.i("DataBaseItem1", cur.getString(1));
+			Log.i("DataBaseItem2", cur.getString(2));
+			Log.i("DataBaseItem3", cur.getString(3));
+			Log.i("DataBaseItem4", cur.getString(4));
+			Log.i("DataBaseItem5", cur.getString(5));
+			Log.i("DataBaseItem6", cur.getString(6));
+			Log.i("DataBaseItem7", cur.getString(7));
+			Log.i("DataBaseItem8", cur.getString(8));
+			Log.i("DataBaseItem9", cur.getString(9));
+			Log.i("DataBaseItem10", cur.getString(10));
+			Log.i("DataBaseItem11", cur.getString(11));
+			Log.i("DataBaseItem12", cur.getString(12));*/
+		}
+		
+		/**/String beizhu = cur.getString(5);
+		SetViewString(R.id.beizhu, beizhu);
+		
+		String zhendong = cur.getString(6);
+		SetViewString(R.id.zhendong, zhendong);
+		
+		String bendi = cur.getString(7);
+		SetViewString(R.id.zhendong, zhendong);
+		
+		String lujing = cur.getString(8);
+		String [] result = lujing.split("/"); 
+		SetViewString(R.id.lingsheng_item, result[result.length - 1]);
+		strSelectMusicDir = lujing;
+		Log.i("@@@@@@@@@@@@@@@@@@@@@@", result[result.length - 1]);
+		
+		String shijian = cur.getString(9);
+		String[] str = shijian.split(":");
+		TIME_HOUR = Integer.parseInt(str[0]);
+		TIME_CENT = Integer.parseInt(str[1]);
+		
 		
 	}
 	public void testDataBase(){
@@ -605,7 +651,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			}
 			Log.i("test", "6666666666666");
 			//1.开启闹钟
-			startclock();
+			//startclock();
 			//2.写入数据库
 			AddNewClockToDataBase();
 			//3.返回主界面并传送消息		
@@ -644,6 +690,8 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 				+ (10 * 1000), (24 * 60 * 60 * 1000),
 				pendingIntent);
 	}
+	
+	
 	public void AddNewClockToDataBase(){
 		
 		String NAME = "name";
@@ -717,7 +765,10 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			    setResult(RESULT_OK, OkPage);
 			    finish();
 	}
-	
+	private void SetViewString(int ID, String str){
+		TextView tx = (TextView) findViewById(ID);
+		tx.setText(str);
+		}
 	private String GetViewString(int ID){
 		TextView tx = (TextView) findViewById(ID);
 		return tx.getText().toString();

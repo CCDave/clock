@@ -88,11 +88,29 @@ public class MySQLiteWorker {
 		
 	}
 	public Cursor FindData(String strTableName, int ID){
-		String str_sql = "SELECT * FROM " 
-				+  strTableName
-				+ " ORDER BY ID DESC";
-		//此处获取了数据
-		Cursor  cur = sqlRecord.rawQuery(str_sql, null);
+		Log.i("测试数据", ""+ID);
+		Cursor cur = sqlRecord.rawQuery("SELECT * FROM "
+				+ strTableName, null);
+		if (cur.getCount() != 0) {
+			while (cur.moveToNext()) {
+				if (Integer.parseInt(cur.getString(0)) == ID){
+					Log.i("DataBaseItem0", cur.getString(0));
+					Log.i("DataBaseItem1", cur.getString(1));
+					Log.i("DataBaseItem2", cur.getString(2));
+					Log.i("DataBaseItem3", cur.getString(3));
+					Log.i("DataBaseItem4", cur.getString(4));
+					Log.i("DataBaseItem5", cur.getString(5));
+					Log.i("DataBaseItem6", cur.getString(6));
+					Log.i("DataBaseItem7", cur.getString(7));
+					Log.i("DataBaseItem8", cur.getString(8));
+					Log.i("DataBaseItem9", cur.getString(9));
+					Log.i("DataBaseItem10", cur.getString(10));
+					Log.i("DataBaseItem11", cur.getString(11));
+					Log.i("DataBaseItem12", cur.getString(12));
+					return cur;
+				}	
+			}
+		}
 		return cur;
 	}
 	public void UpdateData(String strTableName, int ID, ContentValues cv){
@@ -108,7 +126,7 @@ public class MySQLiteWorker {
 		Log.i("MyGesture", "onScroll");  
 		Cursor cur = sqlRecord.rawQuery("SELECT * FROM "
 				+ strTableName, null);
-		if (cur != null) {
+		if (cur.getCount() != 0) {
 			//String name;
 			//String time;
 			

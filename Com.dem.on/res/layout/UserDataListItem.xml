@@ -17,9 +17,74 @@
 	>
 	<RelativeLayout 
 	    android:layout_width="fill_parent" 
-		android:layout_height="410dip" 
+		android:layout_height="100dip" 
+		android:id="@+id/TitleLayout"
+		android:contentDescription="@string/des">
+	    <ImageButton 
+			android:layout_width="100dip" 
+			android:layout_height="100dip" 
+			android:id="@+id/Itemtouxiang"
+			android:contentDescription="@string/des"
+			android:layout_alignParentLeft="true"	
+			android:layout_marginTop="2.5dip"
+			android:layout_marginBottom="2.5dip"
+			android:layout_marginRight="5dip"
+			
+		/>
+	    
+	    <ImageButton 
+			android:layout_width="50dip" 
+			android:layout_height="50dip" 
+			android:id="@+id/huangguan"
+			android:contentDescription="@string/des"	
+			android:layout_alignParentBottom="true"
+			android:layout_toRightOf="@id/Itemtouxiang"
+			android:layout_marginTop="2.5dip"
+			android:layout_marginBottom="2.5dip"
+			android:layout_marginRight="5dip"
+		/>
+	    
+	    <TextView 
+	        android:id="@+id/Itemusername"
+    		android:text="@string/des" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="25sp"
+    		android:layout_above="@id/huangguan"
+    		android:paddingTop="5dip"
+    		android:layout_alignParentTop="true"
+    		android:layout_toRightOf="@id/Itemtouxiang"
+    	/>
+	    <TextView 
+	        android:id="@+id/Itemchenghao"
+    		android:text="@string/des" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="18sp"
+    		android:layout_alignParentBottom="true"
+			android:layout_toRightOf="@id/huangguan"
+    		android:paddingTop="5dip"
+    		android:layout_marginBottom="25dip"
+    		
+    	/>
+	    <TextView 
+	        android:id="@+id/Itemshijian"
+    		android:text="@string/des" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="20sp"
+    		android:layout_alignParentRight="true"
+    		android:layout_centerVertical="true"
+    		android:paddingTop="5dip"
+    		
+    	/>
+	</RelativeLayout>
+	<RelativeLayout 
+	    android:layout_width="fill_parent" 
+		android:layout_height="210dip" 
 		android:id="@+id/PictureLayout"
 		android:contentDescription="@string/des"
+		android:layout_below="@id/TitleLayout"
 	    >
 	    
 	    <ImageView 
@@ -44,11 +109,6 @@
     	</RelativeLayout>  
 	</RelativeLayout>
 	
-	
-	<!-- 	    		android:layout_below="@id/ItemBigPicture"
-	   			android:layout_alignParentBottom="true"
-	   			android:layout_centerHorizontal="true" -->
-	 <!--android:paddingTop="75dip"  android:layout_marginTop="20dip" -->
 	<RelativeLayout 
 	    android:id="@+id/ItemLayoutControls" 
 		android:layout_width="fill_parent" 
@@ -60,81 +120,97 @@
 		android:layout_below="@id/PictureLayout"
 	    >
 	    
-	    <Button
-	  	 android:id="@+id/ItemButtonHeadIcon"
-	     android:layout_width="wrap_content" 
-		 android:layout_height="wrap_content"
-	     android:layout_alignParentLeft="true"
-	 	/> 
-
+	    
 	    <TextView 
-	        android:id="@+id/Itemwhenupload"
-    		android:text="@string/des" 
+	        android:id="@+id/Itemleijijiaoxing"
     		android:layout_height="wrap_content" 
     		android:layout_width="wrap_content" 
-    		android:textSize="12sp"
-    		android:layout_toRightOf="@id/ItemButtonHeadIcon"
-    		android:layout_alignTop="@id/ItemButtonHeadIcon"
+    		android:textSize="16sp"
+			android:layout_alignParentLeft="true"
     		android:paddingTop="5dip"
-    		
+    		android:text="累计叫醒："
     	/>
 	    
 	    <TextView 
-	        android:id="@+id/ItemUserName"
-    		android:text="@string/des" 
+	        android:id="@+id/Itemleijijiaoxing_shu"
+    		android:text="588796" 
     		android:layout_height="wrap_content" 
     		android:layout_width="wrap_content" 
     		android:textSize="16sp"
     		android:textColor="#FF0000"
-    		android:layout_toRightOf="@id/ItemButtonHeadIcon"
-    		android:layout_alignBottom="@id/ItemButtonHeadIcon"
+    		android:paddingBottom="5dip"
+    		android:layout_toRightOf="@id/Itemleijijiaoxing"
+    	/>
+	    <TextView 
+	        android:id="@+id/ItemRen"
+    		android:text="人" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="16sp"
+    		android:layout_toRightOf="@id/Itemleijijiaoxing_shu"
     		android:paddingBottom="5dip"
     	/>
 	    
 	    <TextView 
-	        android:id="@+id/UserPeople"
-    		android:text="@string/des" 
-    		android:layout_height="wrap_content" 
-    		android:layout_width="wrap_content" 
-    		android:textSize="12sp"
-    		android:layout_alignTop="@id/ItemButtonHeadIcon"
-    		android:paddingTop="5dip"
-    		android:layout_alignParentRight="true"
-    		
-    	/>
-	   <TextView 
-	        android:id="@+id/ItemTimeLong"
-    		android:text="@string/des" 
+	        android:id="@+id/Itemjiaoxinglv"
+    		android:text="叫醒率：" 
     		android:layout_height="wrap_content" 
     		android:layout_width="wrap_content" 
     		android:textSize="16sp"
-    		android:textColor="@color/red"
-    		android:layout_below="@id/UserPeople"
-    		android:layout_alignParentRight="true"
-    		android:layout_alignBottom="@id/ItemButtonHeadIcon"
+    		android:layout_below="@id/Itemleijijiaoxing"
+    		android:layout_alignParentLeft="true"
+    		android:paddingBottom="5dip"
+    	/>
+	    <TextView 
+	        android:id="@+id/Itemjiaoxinglv_shu"
+    		android:text="99%" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="16sp"
+    		android:textColor="#FF0000"
+    		android:layout_toRightOf="@id/Itemjiaoxinglv"
+    		android:layout_alignTop="@id/Itemjiaoxinglv"
+    		android:paddingBottom="5dip"
+    	/>
+	    
+	   
+	    <Button
+	  	 android:id="@+id/ItemButtonYuyin"
+	     android:layout_width="wrap_content" 
+		 android:layout_height="wrap_content"
+	     android:layout_toRightOf="@id/ItemRen"
+	     android:paddingBottom="5dip"
+	     android:background="@drawable/user_all_line"
+		 android:textColor="#FF0000"
+	 	/> 
+
+	    <TextView 
+	        android:id="@+id/Itemjiahao"
+    		android:text="+" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="25sp"
+    		android:textColor="#FF0000"
+    		android:layout_toRightOf="@id/ItemButtonYuyin"
+    		android:paddingTop="5dip"
     		android:paddingBottom="5dip"
     		
     	/>
+	    <Button
+	  	 android:id="@+id/ItemButtonDaoju"
+	     android:layout_width="wrap_content" 
+		 android:layout_height="wrap_content"
+	     android:layout_toRightOf="@id/Itemjiahao"
+	     android:paddingBottom="5dip"
+	     android:background="@drawable/user_all_line"
+		 android:textColor="#FF0000"
+	 	/> 
 	   
-	    <TextView 
-	        android:id="@+id/ItemTextContent"
-	        android:paddingLeft="5dip"
-			android:paddingRight="5dip"
-			android:paddingTop="2.5dip"
-			android:paddingBottom="2.5dip"
-	        android:text="@string/des" 
-	        android:textColor="@color/black"
-    		android:layout_height="wrap_content" 
-    		android:layout_width="fill_parent" 
-    		android:textSize="12sp"
-    		android:layout_below="@id/ItemButtonHeadIcon"
-    		
-   		/>
 	    
 	    
 	    <LinearLayout 
 	        android:id="@+id/ItemButtons"
-	        android:layout_below="@id/ItemTextContent"
+	        android:layout_below="@id/ItemButtonDaoju"
 	        android:layout_height="wrap_content" 
     		android:layout_width="fill_parent"
     		android:orientation="horizontal" 
@@ -177,7 +253,22 @@
 	            android:id="@+id/ItemButtonListen"
     			android:layout_width="0dip"
     			android:layout_height="wrap_content"
-    			android:text="离线下载"
+    			android:text="预览"
+    			android:layout_weight="1"
+    			android:paddingLeft="5dip"
+				android:paddingRight="5dip"
+				android:paddingTop="2.5dip"
+				android:paddingBottom="2.5dip"
+				android:layout_margin="2dip"
+				android:background="@drawable/user_right_line"
+				
+				android:textColor="#FF0000"
+	            />
+	        <Button 
+	            android:id="@+id/ItemButtonSetClock"
+    			android:layout_width="0dip"
+    			android:layout_height="wrap_content"
+    			android:text="设为闹铃"
     			android:layout_weight="1"
     			android:paddingLeft="5dip"
 				android:paddingRight="5dip"

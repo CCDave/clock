@@ -67,8 +67,14 @@ public class MySQLiteWorker {
 				+ " text,"
 				+ WAY
 				+ " text);";
-		sqlRecord.execSQL(str_sql2);
-		Log.i("DataBase", "执行了CreateDataTable");
+		try {
+			sqlRecord.execSQL(str_sql2);
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.i("提示:数据库存在", "TABLE_NAME");
+		}
+		
+		
 	}
 	public void DeleteDataTable(String strTableName){
 		String str_sql = "DROP TABLE " + strTableName;
@@ -77,9 +83,9 @@ public class MySQLiteWorker {
 		}
 		
 	}
-	public void InsertData(ContentValues cv){
+	public void InsertData(String strtablename, ContentValues cv){
 		
-		sqlRecord.insert(MySQLiteOpenHelper.TABLE_NAME, null, cv);
+		sqlRecord.insert(strtablename, null, cv);
 	}
 	public void DeleteData(String tableName, int ID){//TODO 添加key = id 删除
 		sqlRecord.delete(tableName, MySQLiteOpenHelper.ID + "="+ ID, null);

@@ -61,7 +61,7 @@
     			android:layout_below="@id/addColckHeadcontent"
     			
     			/>
-     				
+     
      <LinearLayout
                 android:id="@+id/addclocksettimeclock"
                 android:layout_width="fill_parent"

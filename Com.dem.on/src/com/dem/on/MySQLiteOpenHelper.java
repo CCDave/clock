@@ -20,6 +20,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 	public final static String NAME = "name";
 	public final static String TIME = "time";
 	public static final String DATABASE_NAME = "test4DataBase.db";
+	public final static String MYRECORD_TABLE_NAME = "myrecord";
 
 	public MySQLiteOpenHelper(Context context) {
 		// 在Android 中创建和打开一个数据库都可以使用openOrCreateDatabase 方法来实现，

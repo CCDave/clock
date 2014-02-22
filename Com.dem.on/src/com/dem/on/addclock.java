@@ -745,7 +745,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		cv.put(USE_TIMES, usetime);
 		if (nflagaddorupdata == FLAG_NEWDATA){
 			Log.i("tianjiashuju", "****************************");
-			sql.InsertData(cv);	
+			sql.InsertData(MySQLiteOpenHelper.TABLE_NAME, cv);	
 		}
 		if (nflagaddorupdata == FLAG_UPDATA)
 		{

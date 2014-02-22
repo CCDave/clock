@@ -42,8 +42,9 @@
          <receiver android:name=".AlarmReceiver" android:process=":remote" />
          <activity android:name=".OtherActivity"></activity>
          <activity android:name=".musicActivity"></activity>
-         <activity android:name=".notice" android:theme="@style/Theme.Transparent"></activity>
-         
+         <activity android:name=".notice"></activity>
+         <activity android:name=".newrecord"></activity>
+         <!-- <activity android:name=".notice" android:theme="@style/Theme.Transparent"></activity> -->
     </application>
  
 </manifest>

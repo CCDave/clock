@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
 import android.widget.Toast;
@@ -69,7 +70,7 @@ import android.graphics.Matrix;
 import android.content.ContentValues;
 
 
-public  class record extends Activity implements OnTouchListener, OnClickListener,
+public  class newrecord extends Activity implements OnTouchListener, OnClickListener,
 RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	
 	String[] way={"相机","图库"};
@@ -90,19 +91,71 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	private Button btnUpload;//上传
 	private Button btnAddPicture;//添加图片
 	private Button btnPlayRecord;
+	private Button btnNextPage;
+	private Button btnrPage;
+	private int nPage = 0;
+	
 	private ImageView iv_image = null;
+	private RelativeLayout recordpage = null;
+	
+	
 	
 	private String strSampleFilePath;
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_activity);
+        
+        recordpage = (RelativeLayout)findViewById(R.id.recordpageid);
+        recordpage.setBackgroundResource(R.drawable.page1);
+        
         imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"image.jpg"));
         sql = new MySQLiteWorker(this);
         sql.CreateDataTable(MySQLiteOpenHelper.MYRECORD_TABLE_NAME);
         sql.EnumDataBase(MySQLiteOpenHelper.MYRECORD_TABLE_NAME);
         setupViews();
+        Initpage1();
     }
+	
+	public void Initpage1(){
+		nPage = 1;
+		btnPlayRecord.setVisibility(View.GONE);
+		btnUpload.setVisibility(View.GONE);
+		btnRecord.setVisibility(View.GONE);
+		btnNextPage.setVisibility(View.VISIBLE);
+		btnAddPicture.setVisibility(View.VISIBLE);
+		recordpage.setBackgroundResource(R.drawable.page1);
+	}
+	
+	public void Initpage2(){
+		nPage = 2;
+		btnPlayRecord.setVisibility(View.GONE);
+		btnUpload.setVisibility(View.GONE);
+		btnRecord.setVisibility(View.VISIBLE);
+		btnNextPage.setVisibility(View.GONE);
+		btnAddPicture.setVisibility(View.GONE);
+		recordpage.setBackgroundResource(R.drawable.page2);
+	}
+	
+	public void Initpage3(){
+		nPage = 3;
+		btnPlayRecord.setVisibility(View.VISIBLE);
+		btnUpload.setVisibility(View.GONE);
+		btnRecord.setVisibility(View.VISIBLE);
+		btnNextPage.setVisibility(View.VISIBLE);
+		btnAddPicture.setVisibility(View.GONE);
+		recordpage.setBackgroundResource(R.drawable.page3);
+	}
+	
+	public void Initpage4(){
+		nPage = 4;
+		btnPlayRecord.setVisibility(View.GONE);
+		btnUpload.setVisibility(View.VISIBLE);
+		btnRecord.setVisibility(View.GONE);
+		btnNextPage.setVisibility(View.GONE);
+		btnAddPicture.setVisibility(View.GONE);
+		recordpage.setBackgroundResource(R.drawable.page4);
+	}
 	
 	public void startPlayback(String strfilname)
 	{
@@ -131,6 +184,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 					@Override
 					public void onFinishedRecord(String audioPath) {
 						//录音完成
+						Initpage3();
 						Log.i("RECORD!!!", "finished!!!!!!!!!! save to "
 								+ audioPath);
 					}
@@ -144,6 +198,12 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		
 		btnUpload = (Button) findViewById(R.id.ButtonUpload);
 		btnUpload.setOnClickListener(this);
+		
+		btnNextPage = (Button)findViewById(R.id.ButtonNextPage);
+		btnNextPage.setOnClickListener(this);
+       
+		btnrPage = (Button)findViewById(R.id.IdButtonRePage);
+		btnrPage.setOnClickListener(this);
 		
 		iv_image = (ImageView) findViewById(R.id.ViewPictureInRecord);
 
@@ -213,6 +273,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 					return false;
 				}
 				//获取文件路径
+				Initpage3();
 			}
 		}
 		return false;
@@ -243,9 +304,9 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		}
 		if (ID == R.id.ButtonAddPicture){
 			
-			LayoutInflater layoutInflater = LayoutInflater.from(record.this);   
+			LayoutInflater layoutInflater = LayoutInflater.from(newrecord.this);   
             View myLoginView = layoutInflater.inflate(R.layout.popdlg, null);   
-            new AlertDialog.Builder(record.this)  
+            new AlertDialog.Builder(newrecord.this)  
             .setTitle("选择")  
             .setItems(way, new DialogInterface.OnClickListener() {  
                 public void onClick(DialogInterface dialog, int which) {  
@@ -279,6 +340,33 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 			InsertDataBase(recordpath, imagepath);
 			//refreshDataBase();
 			//刷新数据库、
+			//退出
+			finish();
+		}
+		
+		if (ID == R.id.ButtonNextPage){
+			if (nPage == 1){
+				Initpage2();
+			}else if (nPage == 2){
+				Initpage3();
+			}else if (nPage == 3){
+				Initpage4();
+			}else if (nPage == 4){
+				//完成加载
+			}
+		}
+		if (ID == R.id.IdButtonRePage){
+			if (nPage == 1){
+				//退出
+				finish();
+			}else if (nPage == 2){
+				Initpage1();
+			}else if (nPage == 3){
+				Initpage2();
+			}else if (nPage == 4){
+				Initpage3();
+				//完成加载
+			}
 		}
 	}
 	
@@ -341,7 +429,6 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	               byte[] buffer = new byte[1024];     
 	               while ( (byteread = inStream.read(buffer)) != -1) {   
 	                   bytesum += byteread; //字节数 文件大小   
-	                   
 	                   fs.write(buffer, 0, byteread);   
 	               }   
 	               inStream.close();   
@@ -380,8 +467,6 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
             		  bitmap = decodeUriAsBitmap(imageUri);//decode bitmap
             		  iv_image.setImageBitmap(bitmap);
             		  //存入文件系统
-            		  
-            		  
             		  try {
 						savePhotoToSDCard(Environment.getExternalStorageDirectory()
 						  		.getAbsolutePath(), IMAGE_FILE_NAME, bitmap);
@@ -408,8 +493,8 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		intent.putExtra("crop", "true");
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
-		intent.putExtra("outputX", 700);
-		intent.putExtra("outputY", 800);
+		intent.putExtra("outputX", 800);
+		intent.putExtra("outputY", 650);
 		intent.putExtra("scale", true);
 		intent.putExtra("return-data", false);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);

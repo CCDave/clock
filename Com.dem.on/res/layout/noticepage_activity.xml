@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:id="@+id/RelativeLayout01_head" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:background="@color/white"
+	>
+	<RelativeLayout 
+	    android:layout_width="fill_parent" 
+		android:layout_height="310dip" 
+		android:id="@+id/PictureLayout_head"
+		android:contentDescription="@string/des"
+	    >
+	    
+	    <ImageView 
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent" 
+			android:id="@+id/ItemBigPicture_head"
+			android:contentDescription="@string/des"	
+		/>
+	    <RelativeLayout
+                android:id="@+id/recordframe_head"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+          		android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                >           
+ 				<Button
+	  			android:id="@+id/ItemButtonxiaoshuiyihui"
+				android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:layout_alignParentRight="true"
+    			android:text="小睡一会"
+	 			/>
+ 			
+    	</RelativeLayout>  
+	</RelativeLayout>
+	
+	<RelativeLayout 
+	    android:layout_width="fill_parent" 
+		android:layout_height="100dip" 
+		android:id="@+id/TitleLayout"
+		android:layout_below="@id/PictureLayout_head"
+		android:contentDescription="@string/des">
+	    <ImageButton 
+			android:layout_width="100dip" 
+			android:layout_height="100dip" 
+			android:id="@+id/Itemtouxiang"
+			android:contentDescription="@string/des"
+			android:layout_alignParentLeft="true"	
+			android:layout_marginTop="2.5dip"
+			android:layout_marginBottom="2.5dip"
+			android:layout_marginRight="5dip"
+			
+		/>
+	    
+	    <ImageButton 
+			android:layout_width="50dip" 
+			android:layout_height="50dip" 
+			android:id="@+id/huangguan"
+			android:contentDescription="@string/des"	
+			android:layout_alignParentBottom="true"
+			android:layout_toRightOf="@id/Itemtouxiang"
+			android:layout_marginTop="2.5dip"
+			android:layout_marginBottom="2.5dip"
+			android:layout_marginRight="5dip"
+		/>
+	    
+	    <TextView 
+	        android:id="@+id/Itemusername"
+    		android:text="@string/des" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="25sp"
+    		android:layout_above="@id/huangguan"
+    		android:paddingTop="5dip"
+    		android:layout_alignParentTop="true"
+    		android:layout_toRightOf="@id/Itemtouxiang"
+    	/>
+	    <TextView 
+	        android:id="@+id/Itemchenghao"
+    		android:text="@string/des" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="18sp"
+    		android:layout_alignParentBottom="true"
+			android:layout_toRightOf="@id/huangguan"
+    		android:paddingTop="5dip"
+    		android:layout_marginBottom="25dip"
+    		
+    	/>
+	</RelativeLayout>
+	  <TextView 
+	      	android:id="@+id/TextNoticeWord"
+    		android:text="想赖床！ 哈哈哈哈哈 ！ 休想！" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="20sp"
+    		android:paddingTop="5dip"
+    		android:layout_marginBottom="25dip"
+    		android:paddingLeft="10dip"
+    		android:layout_below="@id/TitleLayout"
+    		android:layout_alignParentLeft="true"
+	      />
+	  
+	<RelativeLayout 
+	    android:layout_below="@id/TextNoticeWord"
+	    android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
+	    <Button 
+	  			android:id="@+id/ItemButtonClicktoClose"
+				android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:layout_centerHorizontal="true"
+    			android:layout_centerVertical="true"
+    			android:layout_centerInParent="true"
+    			android:textColor="#ff000000"
+    			android:text="点击30次即可关闭"
+    			android:textSize="25sp"
+	      />
+	</RelativeLayout>
+	  
+
+</RelativeLayout>

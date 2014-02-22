@@ -63,6 +63,20 @@ public class Clock extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clock_activity);   
         
+        //测试响铃
+        /*Bundle bundle = new Bundle();
+	    bundle.putString("id", "4");
+	    Intent intent = new Intent(this, notice.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
+        startActivity(intent);*/
+        Bundle bundle = new Bundle();
+	    bundle.putString("id", "4");
+	    Intent intent = new Intent(this, newrecord.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
         sql = new MySQLiteWorker(this);
         calendar = Calendar.getInstance();
         btAddClock = (Button)findViewById(R.id.ButtonAddClock);
@@ -356,6 +370,10 @@ private void initMidListView() {
             return convertView;  
         }  
     }  
+	
+	
+	
+	
 	public void updataopenclock(int Id, int flag){
 		Cursor cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, Integer.valueOf(Id).intValue());
 		if (cur.getCount() != 0){

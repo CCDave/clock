@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -85,7 +87,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	private long startTime = 0;	//记录时间判断是否是有效录音
 	WakeLock mWakeLock;//用WakeLock请求休眠锁，让其不会休眠
 	private RecordHelper mRecorder;//录音类，实现录音功能
-
+	private String strrecord;
 	private MySQLiteWorker sql = null;
 	private RecordButton btnRecord = null;//录音按钮
 	private Button btnUpload;//上传
@@ -94,6 +96,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	private Button btnNextPage;
 	private Button btnrPage;
 	private int nPage = 0;
+	private int addpicture = 0;
 	
 	private ImageView iv_image = null;
 	private RelativeLayout recordpage = null;
@@ -185,6 +188,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 					public void onFinishedRecord(String audioPath) {
 						//录音完成
 						Initpage3();
+						
 						Log.i("RECORD!!!", "finished!!!!!!!!!! save to "
 								+ audioPath);
 					}
@@ -303,7 +307,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 					.getAbsolutePath() +  RECORD_FILE_NAME);
 		}
 		if (ID == R.id.ButtonAddPicture){
-			
+			addpicture = 1;
 			LayoutInflater layoutInflater = LayoutInflater.from(newrecord.this);   
             View myLoginView = layoutInflater.inflate(R.layout.popdlg, null);   
             new AlertDialog.Builder(newrecord.this)  
@@ -334,6 +338,9 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 					.getAbsolutePath() + config.PICTURE_DIR+ DateFormat.format("yyyyMMdd_hhmmss",
 					Calendar.getInstance(Locale.CHINA))+"_image.png";
 			
+			SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm");
+			Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+			strrecord = formatter.format(curDate);
 			//拷贝声音和图片文件到响应的文件夹
 			SavePicAndRecord(recordpath, imagepath);
 			//在数据库中加入数据
@@ -405,8 +412,13 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		String clockTime = "0" +":"+ "0"; 
 		cv.put(NAME, "0");
 		cv.put(RECORD_DIR, "0");
-		cv.put(PICTURE_DIR, imagepath);
-		cv.put(TIME, "0");
+		if (addpicture == 1){
+			cv.put(PICTURE_DIR, imagepath);
+		}else{
+			cv.put(PICTURE_DIR, "0");
+		}
+		
+		cv.put(TIME, strrecord);
 		cv.put(WAY, "0");
 		cv.put(BEIZHU, "备注");
 		cv.put(ZHENDONG, "震动");
@@ -422,10 +434,13 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	}
 	
 	private void SavePicAndRecord(String recordpath, String imagepath){
+		if (addpicture == 1){
+			copyFile(Environment.getExternalStorageDirectory()
+					.getAbsolutePath() +  IMAGE_FILE_NAME, imagepath);
+		}
 		copyFile(Environment.getExternalStorageDirectory()
 				.getAbsolutePath() +  RECORD_FILE_NAME, recordpath);
-		copyFile(Environment.getExternalStorageDirectory()
-				.getAbsolutePath() +  IMAGE_FILE_NAME, imagepath);
+		
 	}
 	
 	public void copyFile(String oldPath, String newPath) {   
@@ -504,7 +519,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	public void GetBigPicture(){
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
 		intent.setType("image/*");
-		intent.putExtra("crop", "true");
+		intent.putExtra("crop", "false");
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 		intent.putExtra("outputX", 800);

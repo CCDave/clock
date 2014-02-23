@@ -33,6 +33,28 @@
     		android:textColorHighlight="@color/red"
     		
     	/>
+	    <Button 
+	        android:id="@+id/ItemButtonDeleteData"
+    		android:text="删除" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="20sp"
+    		android:layout_centerVertical="true"
+    		
+    		android:background="@drawable/user_all_line"
+    		android:textColor="@color/black"/>
+	    <Button 
+	        android:id="@+id/ItemButtonUpload"
+    		android:text="发布" 
+    		android:layout_height="wrap_content" 
+    		android:layout_width="wrap_content" 
+    		android:textSize="20sp"
+    		android:layout_centerVertical="true"
+    		
+    		android:textColor="@color/black"
+    		android:background="@drawable/user_all_line"
+    		android:layout_alignParentRight="true"/>
+	    	
 	</RelativeLayout>
 	<RelativeLayout 
 	    android:layout_width="fill_parent" 
@@ -45,7 +67,9 @@
 			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent" 
 			android:id="@+id/ItemBigPicture"
-			android:contentDescription="@string/des"	
+			android:contentDescription="@string/des"
+			android:background="@color/white"	
+			
 		/>
 	    <RelativeLayout
                 android:id="@+id/recordframe"
@@ -58,6 +82,7 @@
 				android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
     			android:layout_centerHorizontal="true"
+    			android:background="@drawable/play_page3"
 	 			/>
  			
     	</RelativeLayout>  
@@ -92,7 +117,7 @@
     		android:layout_width="wrap_content" 
     		android:textSize="16sp"
     		android:textColor="#FF0000"
-    		android:paddingBottom="5dip"
+    		android:paddingTop="5dip"
     		android:layout_toRightOf="@id/Itemleijijiaoxing"
     	/>
 	    <TextView 
@@ -102,7 +127,7 @@
     		android:layout_width="wrap_content" 
     		android:textSize="16sp"
     		android:layout_toRightOf="@id/Itemleijijiaoxing_shu"
-    		android:paddingBottom="5dip"
+    		android:paddingTop="5dip"
     	/>
 	    
 	    <TextView 
@@ -136,6 +161,7 @@
 	     android:paddingBottom="5dip"
 	     android:background="@drawable/user_all_line"
 		 android:textColor="#FF0000"
+		 android:layout_marginLeft="10dip"
 	 	/> 
 
 	    <TextView 
@@ -148,6 +174,7 @@
     		android:layout_toRightOf="@id/ItemButtonYuyin"
     		android:paddingTop="5dip"
     		android:paddingBottom="5dip"
+    		android:layout_marginLeft="10dip"
     		
     	/>
 	    <Button
@@ -158,6 +185,9 @@
 	     android:paddingBottom="5dip"
 	     android:background="@drawable/user_all_line"
 		 android:textColor="#FF0000"
+		 android:paddingLeft="5dip"
+		 android:paddingRight="5dip"
+		 android:layout_marginLeft="10dip"
 	 	/> 
 	   
 	    
@@ -187,7 +217,7 @@
 				android:paddingBottom="2.5dip"
 				android:layout_margin="2dip"
 				android:background="@drawable/user_right_line"
-				android:textColor="#FF0000"
+				android:textColor="#000000"
 	            />
 	        <Button 
 	            android:id="@+id/ItemButtonTalk"
@@ -201,7 +231,7 @@
 				android:paddingBottom="2.5dip"
 				android:layout_margin="2dip"
 				android:background="@drawable/user_right_line"
-				android:textColor="#FF0000"
+				android:textColor="#000000"
 	            />
 	        <Button 
 	            android:id="@+id/ItemButtonListen"
@@ -216,7 +246,7 @@
 				android:layout_margin="2dip"
 				android:background="@drawable/user_right_line"
 				
-				android:textColor="#FF0000"
+				android:textColor="#000000"
 	            />
 	        <Button 
 	            android:id="@+id/ItemButtonSetClock"
@@ -230,7 +260,7 @@
 				android:paddingBottom="2.5dip"
 				android:layout_margin="2dip"
 				android:background="#FFFFFF"
-				android:textColor="#FF0000"
+				android:textColor="#000000"
 	            />
 	    </LinearLayout>
 	</RelativeLayout>

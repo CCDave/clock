@@ -32,6 +32,7 @@
     			android:layout_height="wrap_content"
     			android:layout_alignParentRight="true"
     			android:text="小睡一会"
+    			android:background="@color/green"
 	 			/>
  			
     	</RelativeLayout>  
@@ -52,6 +53,7 @@
 			android:layout_marginTop="2.5dip"
 			android:layout_marginBottom="2.5dip"
 			android:layout_marginRight="5dip"
+			android:background="@drawable/default_clock"
 			
 		/>
 	    
@@ -65,11 +67,12 @@
 			android:layout_marginTop="2.5dip"
 			android:layout_marginBottom="2.5dip"
 			android:layout_marginRight="5dip"
+			android:background="@drawable/huangguan"
 		/>
 	    
 	    <TextView 
 	        android:id="@+id/Itemusername"
-    		android:text="@string/des" 
+    		android:text="我的闹钟" 
     		android:layout_height="wrap_content" 
     		android:layout_width="wrap_content" 
     		android:textSize="25sp"
@@ -80,7 +83,7 @@
     	/>
 	    <TextView 
 	        android:id="@+id/Itemchenghao"
-    		android:text="@string/des" 
+    		android:text="点击按钮停止响铃" 
     		android:layout_height="wrap_content" 
     		android:layout_width="wrap_content" 
     		android:textSize="18sp"
@@ -118,6 +121,7 @@
     			android:textColor="#ff000000"
     			android:text="点击30次即可关闭"
     			android:textSize="25sp"
+    			android:background="@color/red"
 	      />
 	</RelativeLayout>
 	  

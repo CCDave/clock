@@ -22,7 +22,8 @@
     				android:id="@+id/ItemRecord"
     				android:paddingLeft="12dip"
     				android:gravity="center"
-    />
+    			/>
+                
  
     </FrameLayout>
     
@@ -36,6 +37,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@id/HeadMyColckcontent"
         android:layout_weight="1"
+        android:descendantFocusability="blocksDescendants"
         >
     </ListView>
 	

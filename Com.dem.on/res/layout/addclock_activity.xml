@@ -15,8 +15,8 @@
    				 	android:text="@string/setnewclock" 
     		     	android:layout_height="fill_parent" 
                  	android:layout_width="fill_parent" 
-    			 	android:textSize="30sp"
-    				android:background="@color/green"
+    			 	android:textSize="20sp"
+    				android:background="@color/headframcolor"
     				android:textColor="@color/black"
     				android:id="@+id/Itemsetnewclock"
     				android:paddingLeft="12dip"
@@ -33,6 +33,7 @@
     				android:textSize="20sp"
     				android:layout_alignTop="@id/Itemsetnewclock" 
     				android:background="@android:color/transparent"
+    				android:textColor="@color/black"
     			/>
  				
  				<Button
@@ -45,6 +46,7 @@
     				android:textSize="20sp"
     				android:layout_alignTop="@id/Itemsetnewclock" 
     				android:background="@android:color/transparent"
+    				android:textColor="@color/black"
     			/>
     </RelativeLayout>
     
@@ -73,6 +75,7 @@
                 android:layout_marginLeft="40dip"
                 android:layout_marginRight="40dip"
                 android:background="@drawable/clocktime"
+                
                 >
 				<LinearLayout 
 				    android:id="@+id/setclocltimehour"
@@ -84,6 +87,7 @@
 				  	android:padding="1dip"
                 	android:layout_marginLeft="1dip"
                 	android:layout_marginRight="1dip"
+                	
 				 >
 				    <TextView 
 				        android:id="@+id/texthour1"

@@ -46,18 +46,22 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 
 
 import com.dem.on.R;
@@ -82,7 +86,7 @@ public  class record extends Activity implements OnTouchListener, OnClickListene
 RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	
 	String[] way={"相机","图库"};
-	
+	Activity a = this;
 	
 	WakeLock mWakeLock;//用WakeLock请求休眠锁，让其不会休眠
 	private RecordHelper mRecorder;//录音类，实现录音功能
@@ -91,6 +95,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	private Button ButtonStartRecord;
 	
 	private ListView list = null;
+	private int listItemPosition = 0;
 	private RelativeLayout tupianbuju = null;
 	private ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 	private List<String> myClockId = new ArrayList<String>();
@@ -113,9 +118,51 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		list = (ListView) findViewById(R.id.ListViewUserData);
 		list.setVerticalScrollBarEnabled(false);
 		
+		list.setOnItemLongClickListener(new OnItemLongClickListener() {
+        	@Override
+        	public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+        			int arg2, long arg3) {
+        		listItemPosition = arg2;
+        		Log.i("$$$$$$$$$$$$$$$", ""+arg2);
+        		Log.i("$$$$$$$$$$$$$$$", ""+arg3);
+        			return false;
+        			}
+        });
+		//弹出菜单  
+        list.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
+            @Override  
+            public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
+                menu.add(0, 0, 0, "删除");  
+            }  
+        });  
 		tupianbuju = (RelativeLayout)findViewById(R.id.tishitupian);
 		
 	}
+	@Override
+	public boolean onContextItemSelected(MenuItem menu){
+		
+		Log.i("$$$$$$$$$$$$$$$", "$$$$$$$$$$$$$$$$$");
+		try{
+			switch(menu.getItemId()){
+			case 0:
+				//删除这一项
+				DeleteClock(listItemPosition);
+				break;
+			
+			default:
+				break;
+			}
+		}catch(Exception e){}
+		
+		return super.onContextItemSelected(menu);
+	}
+	
+	private void DeleteClock(int index){
+		String ID = myClockId.get(index);
+		sql.DeleteData(MySQLiteOpenHelper.MYRECORD_TABLE_NAME, Integer.valueOf(ID).intValue());
+		InitListView();
+	}
+	
 	private void InitListView(){
 		
 		if (TestBase() == 0){
@@ -129,7 +176,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		
 		listItem.clear();
 		myClockId.clear();
-        
+        sql.EnumDataBase(MySQLiteOpenHelper.MYRECORD_TABLE_NAME);
         Cursor cur = sql.GetTableCursor(MySQLiteOpenHelper.MYRECORD_TABLE_NAME);
         
 		if (cur.getCount() != 0) {
@@ -142,7 +189,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 				maptmp.put("Itemjiaoxinglv_shu", "91%");
 				maptmp.put("ItemButtonYuyin", "语音");
 				maptmp.put("ItemButtonDaoju", "道具");
-				maptmp.put("ItemRecordTime", "2014/2/23 11:34");
+				maptmp.put("ItemRecordTime", cur.getString(4));
 		        listItem.add(maptmp);
 			}
 		}
@@ -232,16 +279,41 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
                     holder.ItemButtonListen = (Button)convertView.findViewById(R.id.ItemButtonListen);
                     holder.ItemButtonSetClock = (Button)convertView.findViewById(R.id.ItemButtonSetClock);
                     holder.ItemButtonPlayRecord = (Button)convertView.findViewById(R.id.ItemButtonPlayRecord);
-                    
+                    holder.ItemButtonDeleteData = (Button)convertView.findViewById(R.id.ItemButtonDeleteData);
                     convertView.setTag(holder);               
                 }else {               
                     holder = (ViewHolder)convertView.getTag();  
                 }         
+
+                File file = new File((String)listItem.get(position).get("ItemBigPicture"));
+                if (file.exists()){
+                	
+                	Bitmap bm = BitmapFactory.decodeFile((String)listItem.get(position).get("ItemBigPicture"));
+                	 // 获得图片的宽高
+                    int width = bm.getWidth();
+                    int height = bm.getHeight();
+                    // 设置想要的大小
+                    int newWidth = 800;
+                    int newHeight = 400;
+                    // 计算缩放比例
+                    float scaleWidth = ((float) newWidth) / width;
+                    float scaleHeight = ((float) newHeight) / height;
+                    // 取得想要缩放的matrix参数
+                    Matrix matrix = new Matrix();
+                    matrix.postScale(scaleWidth, scaleHeight);
+                    // 得到新的图片
+                    Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix,
+                      true);
+                    if (bm.isRecycled()) {
+                        bm.recycle();
+                    }
+                    
+                	holder.ItemBigPicture.setImageBitmap(newbm);
+                }else{
+                	holder.ItemBigPicture.setBackgroundResource(R.drawable.queshengtupian);
+                }
                 
-             
-                Log.i("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", (String)listItem.get(position).get("ItemBigPicture"));
-                Bitmap bm = BitmapFactory.decodeFile((String)listItem.get(position).get("ItemBigPicture"));
-                holder.ItemBigPicture.setImageBitmap(bm);
+                
                 
                 holder.Itemleijijiaoxing_shu.setText((String)listItem.get(position).get("Itemleijijiaoxing_shu"));
                 holder.Itemjiaoxinglv_shu.setText((String)listItem.get(position).get("Itemjiaoxinglv_shu"));
@@ -249,6 +321,14 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
                 holder.ItemButtonDaoju.setText((String)listItem.get(position).get("ItemButtonDaoju"));
                 holder.ItemRecordTime.setText((String)listItem.get(position).get("ItemRecordTime"));
                 
+                //删除
+                
+                holder.ItemButtonDeleteData.setOnClickListener(new View.OnClickListener() {  
+                    @Override  
+                    public void onClick(View v) {  
+                    	DeleteClock(position);
+                    }  
+                });  
                 //预览
                 holder.ItemButtonListen.setOnClickListener(new View.OnClickListener() {  
                     @Override  
@@ -290,9 +370,6 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		
-		
 		switch(requestCode){
 		case (1) :{
 			if (resultCode == Activity.RESULT_OK)
@@ -359,6 +436,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
         public Button ItemButtonListen;
         public Button ItemButtonSetClock;
         public Button ItemButtonPlayRecord;
+        public Button ItemButtonDeleteData;
         
     }
 	@Override

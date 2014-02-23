@@ -45,7 +45,7 @@ public class MainActivity extends TabActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		IfFristLoad();
-
+		createDataDir();
         setContentView(R.layout.activity_main);
 		tabHost = getTabHost();
 		
@@ -95,6 +95,14 @@ public class MainActivity extends TabActivity {
     	  System.out.println("文件路径存在" + Environment.getExternalStorageDirectory()
   				.getAbsolutePath() + config.PICTURE_DIR);
     	 }
+    	 if(f1.exists() == false) {
+ 	        f1.mkdirs();
+ 	        System.out.println("路径不存在,但是已经成功创建了" + Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + config.RECORD_DIR);
+    	 }else{
+    		 System.out.println("文件路径存在" + Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + config.RECORD_DIR);
+ 	 }
     }
     private void firstload(){
     	Intent it = new Intent(MainActivity.this, TestWeiXinWhatsNewActivity.class);

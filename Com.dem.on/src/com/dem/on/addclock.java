@@ -1,7 +1,4 @@
 package com.dem.on;
-
-
-
 import java.io.File;
 import java.util.Calendar;
 
@@ -41,7 +38,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	
 	String[] num={"只响一次","每天","法定工作日（智能跳过节假日）","周一至周五","自定义"};
 	String[] switchSound={"本地","明星"};
-	private String strSelectMusicDir = "";
+	private String strSelectMusicDir = "0";
 	private int nflagaddorupdata = 0;
 	private int nUpdataId = 0;
 	
@@ -189,9 +186,13 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		SetViewString(R.id.zhendong, zhendong);
 		
 		String lujing = cur.getString(8);
+		
 		String [] result = lujing.split("/"); 
-		SetViewString(R.id.lingsheng_item, result[result.length - 1]);
-		strSelectMusicDir = lujing;
+		if(result[0].toString().compareTo("0") != 0){
+			SetViewString(R.id.lingsheng_item, result[result.length - 1]);
+			strSelectMusicDir = lujing;
+		}
+		
 		Log.i("@@@@@@@@@@@@@@@@@@@@@@", result[result.length - 1]);
 		
 		String shijian = cur.getString(9);
@@ -653,12 +654,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 			
 		case R.id.ButtonAddClock_queding:
 		{
-			File file = new File(strSelectMusicDir);
-			  if (!file.exists()) {
-				  Toast.makeText(addclock.this, "请选择声音！",
-							Toast.LENGTH_SHORT).show();
-			   return;
-			}
+			
 			Log.i("test", "6666666666666");
 			//1.开启闹钟
 			//startclock();

@@ -41,8 +41,14 @@
         			android:layout_height="fill_parent"
      			    android:background="@drawable/me"
       			    android:layout_centerVertical="true"
+                    />
+                <Button 
+                    android:id="@+id/ItemButtonMyHomePage"
+                    android:layout_width="500dip"
+        			android:layout_height="50dip"
+     			    android:text="wodezhute"
       			    
-      
+      			    android:layout_marginTop="180dip"
                     />
     </RelativeLayout>
     

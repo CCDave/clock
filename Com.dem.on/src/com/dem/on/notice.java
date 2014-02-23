@@ -93,7 +93,7 @@ public class notice extends Activity{
   		  		bitmap = decodeUriAsBitmap(imageUri);
   		  		ItemBigPicture_head.setImageBitmap(bitmap);
 			}else{
-				ItemBigPicture_head.setBackgroundResource(R.drawable.wenzhang);
+				ItemBigPicture_head.setBackgroundResource(R.drawable.queshengtupian);
 			}
 
 			if (file.exists()){
@@ -103,8 +103,9 @@ public class notice extends Activity{
 					}else{
 					sc = new SoundControl(1);
 					}
+					sc.playMusic(musicdir);
 				}
-				sc.playMusic(musicdir);
+				
 			}
 			else{
 				//声明一个SoundPool   

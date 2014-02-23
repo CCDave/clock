@@ -5,79 +5,161 @@ package com.dem.on;
 import java.util.ArrayList;  
 import java.util.HashMap;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
 import com.dem.on.R;
+import com.dem.on.Clock.MyAdapter;
+import com.dem.on.Clock.ViewHolder;
+
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 import android.view.ContextMenu;
 import android.widget.AdapterView;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 
 
 public class stars_list extends Activity {
 
 	private ListView list;
-	
+	ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.starts_list);    
         
         this.initMidListView();
     }
-	
+	public final class ViewHolder {   
+        public TextView ItemPeopleCount;  
+        public TextView ItemStarName; 
+        public ImageView ItemStarHeadImage;
+        public Button ButtonControl_onoff;
+    }
 	private void initMidListView() {
 		
 		list = (ListView) findViewById(R.id.ListStars);
-		ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+		listItem.clear();
 
 		HashMap<String, Object> map = new HashMap<String, Object>();  
         map.put("ItemStarHeadImage", R.drawable.wenzhang);//图像资源的ID  
-        map.put("ItemClockName", "起床闹钟");  
-        map.put("ItemClockTime", "07:30");  
-        map.put("ItemClockData", "周一到周五"); 
-        map.put("ItemClockLastTime", ""); 
+        map.put("ItemStarName","文章");
+        map.put("ItemPeopleCount", "2568091");
         listItem.add(map);  
         
         HashMap<String, Object> map2 = new HashMap<String, Object>();  
         map2.put("ItemStarHeadImage", R.drawable.gaoyuanyuan);//图像资源的ID  
-        map2.put("ItemClockName", "早睡闹钟");  
-        map2.put("ItemClockTime", "23:00");  
-        map2.put("ItemClockData", "每天"); 
-        map2.put("ItemClockLastTime", "还有7小时30分钟"); 
+        map2.put("ItemStarName", "高圆圆");
+        map2.put("ItemPeopleCount", "2147483647");
         listItem.add(map2);  
         
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源   
-	            R.layout.listitem,//ListItem的XML实现  
-	            //动态数组与ImageItem对应的子项          
-	            new String[] {"ItemStarHeadImage","ItemClockName", "ItemClockTime","ItemClockData","ItemClockLastTime"},   
-	            //ImageItem的XML文件里面的一个ImageView,两个TextView ID  
-	            new int[] {R.id.ItemStarHeadImage,R.id.ItemClockName,R.id.ItemClockTime,R.id.ItemClockData, R.id.ItemClockLastTime}  
-	        );
-		
-		//添加并且显示  
-        list.setAdapter(listItemAdapter);  
-          
+        
+        HashMap<String, Object> map3 = new HashMap<String, Object>();  
+        map3.put("ItemStarHeadImage", R.drawable.zhouhongyi);//图像资源的ID  
+        map3.put("ItemStarName", "周鸿祎");
+        map3.put("ItemPeopleCount", "659831560");
+        listItem.add(map3);  
+        
+        /**/HashMap<String, Object> map4 = new HashMap<String, Object>();  
+        map4.put("ItemStarHeadImage", R.drawable.wanghan);//图像资源的ID  
+        map4.put("ItemStarName", "汪涵");
+        map4.put("ItemPeopleCount", "112354");
+        listItem.add(map4);  
+        
+        HashMap<String, Object> map5 = new HashMap<String, Object>();  
+        map5.put("ItemStarHeadImage", R.drawable.guodegang);//图像资源的ID  
+        map5.put("ItemStarName", "郭德纲");
+        map5.put("ItemPeopleCount", "2131283647");
+        listItem.add(map5);  
+       
+        MyAdapter listItemAdapter = new MyAdapter(this);
+
+       list.setAdapter(listItemAdapter);  
         //添加点击  
-        list.setOnItemClickListener(new OnItemClickListener() {  
+       list.setOnItemClickListener(new OnItemClickListener() {  
   
             @Override  
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,  
                     long arg3) {  
-                setTitle("点击第"+arg2+"个项目");  
+            	String strName = (String)listItem.get(arg2).get("ItemStarName");
+            	Toast.makeText(stars_list.this, "转向"+strName+"的个人主页", Toast.LENGTH_SHORT).show();
             }  
         });  
-        //添加长按点击  
-        list.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
-            @Override  
-            public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
-                menu.setHeaderTitle("长按菜单-ContextMenu");     
-                menu.add(0, 0, 0, "弹出长按菜单0");  
-                menu.add(0, 1, 0, "弹出长按菜单1");     
-            }  
-        });    
-       
+
 	}
+	
+	public class MyAdapter extends BaseAdapter {  
+		  
+        private LayoutInflater mInflater;  
+  
+        public MyAdapter(Context context) {  
+            this.mInflater = LayoutInflater.from(context);  
+        }  
+  
+        @Override  
+        public int getCount() {  
+            // TODO Auto-generated method stub  
+            return listItem.size();  
+        }  
+  
+        @Override  
+        public Object getItem(int position) {  
+            // TODO Auto-generated method stub  
+            return null;  
+        }  
+  
+        @Override  
+        public long getItemId(int position) {  
+            // TODO Auto-generated method stub  
+            return 0;  
+        }  
+        //****************************************final方法  
+        //注意原本getView方法中的int position变量是非final的，现在改为final  
+        @Override  
+        public View getView(final int position, View convertView, ViewGroup parent) {  
+             ViewHolder holder = null;  
+            if (convertView == null) {  
+                  
+                holder=new ViewHolder();    
+                //可以理解为从vlist获取view  之后把view返回给ListView  
+                convertView = mInflater.inflate(R.layout.stars_list_hot, null);  
+                
+                holder.ItemPeopleCount = (TextView)convertView.findViewById(R.id.ItemPeopleCount);  
+                holder.ItemStarName = (TextView)convertView.findViewById(R.id.ItemStarName);  
+                holder.ItemStarHeadImage = (ImageView)convertView.findViewById(R.id.ItemStarHeadImage); 
+                holder.ButtonControl_onoff = (Button)convertView.findViewById(R.id.ButtonControl_onoff);  
+                convertView.setTag(holder);               
+            }else {               
+                holder = (ViewHolder)convertView.getTag();  
+            }         
+              
+            holder.ItemPeopleCount.setText((String)listItem.get(position).get("ItemPeopleCount"));  
+            holder.ItemStarName.setText((String)listItem.get(position).get("ItemStarName"));  
+            holder.ItemStarHeadImage.setBackgroundResource((Integer)listItem.get(position).get("ItemStarHeadImage"));
+            holder.ButtonControl_onoff.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					Toast.makeText(stars_list.this, "已添加到提醒人列表！", Toast.LENGTH_SHORT).show();
+				}
+			});
+            return convertView;  
+        }  
+    }  
+	
 }

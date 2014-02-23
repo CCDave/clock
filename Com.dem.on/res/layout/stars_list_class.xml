@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:id="@+id/RelativeLayout01" 
+	android:layout_width="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_height="fill_parent" 
+	android:descendantFocusability="blocksDescendants"
+	>
+	
+ <ImageView 
+     android:id="@+id/ItemStarHeadImage"
+	android:layout_alignParentLeft="true"
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content" 
+	android:contentDescription="@string/des"
+	/> 
+
+	
+<TextView 
+    android:id="@+id/ItemStarName"
+    android:text="@string/des" 
+    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent" 
+    android:textSize="25sp"
+    android:layout_toRightOf="@id/ItemStarHeadImage"
+    android:paddingLeft="12dip"
+    android:paddingTop="20dip"
+    />
+
+<TextView 
+    android:id="@+id/ItemCallPeopleNum"
+	android:layout_height="wrap_content" 
+	android:layout_width="wrap_content" 
+	android:textSize="18sp"
+	android:layout_below="@id/ItemStarName" 
+	android:paddingLeft="12dip"
+	android:layout_toRightOf="@id/ItemStarHeadImage"
+	android:text="人气"
+	/>
+
+<TextView 
+    android:id="@+id/ItemPeopleCount"
+	android:layout_height="wrap_content" 
+	android:layout_width="wrap_content" 
+	android:textColor="@color/tabDark"
+	android:textSize="18sp"
+	android:layout_below="@id/ItemStarName" 
+	android:paddingLeft="5dip"
+	android:layout_toRightOf="@id/ItemCallPeopleNum"
+	android:text="111"
+	/>
+
+
+<TextView 
+    android:id="@+id/ItemWordPeople"
+	android:layout_height="wrap_content" 
+	android:layout_width="wrap_content" 
+	android:textSize="18sp"
+	android:paddingLeft="5dip"
+	android:layout_toRightOf="@id/ItemPeopleCount"
+	android:layout_alignTop="@id/ItemPeopleCount"
+	android:text=""
+	/>
+
+<Button
+    android:id="@+id/ButtonControl_onoff"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    android:layout_alignParentRight="true"
+    android:paddingRight="20dip"
+    android:layout_centerVertical="true"
+    android:text=">"
+    android:textSize="50dip"
+    android:textColor="@color/headframcolor"
+    android:background="@android:color/transparent"
+   
+    />
+
+</RelativeLayout>

@@ -20,6 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 	    Bundle bundle = new Bundle();
 	    bundle.putString("id", msg);
+	    bundle.putString("flag", "1");
 
 	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClass(context, notice.class);

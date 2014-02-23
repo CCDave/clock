@@ -5,7 +5,6 @@
 	android:background="@color/white"
 	>
 
-    
     <FrameLayout
                 android:id="@+id/HeadMyColckcontent"
                 android:layout_width="fill_parent"
@@ -16,8 +15,8 @@
    				 	android:text="@string/setup" 
     		     	android:layout_height="fill_parent" 
                  	android:layout_width="fill_parent" 
-    			 	android:textSize="30sp"
-    				android:background="@color/green"
+    			 	android:textSize="20sp"
+    				android:background="@color/headframcolor"
     				android:textColor="@color/black"
     				android:id="@+id/ItemRecord"
     				android:paddingLeft="12dip"
@@ -36,6 +35,7 @@
         android:background="@color/white"
         android:layout_centerVertical="true"
         android:layout_below="@id/HeadMyColckcontent"
+     
         >
     </ListView>
     

@@ -7,14 +7,15 @@
 	-->
 	
 	<color name="tabMedium">#ffffffff</color>
-	<color name="tabDark">#66CDAA</color>
+	<color name="tabDark">#FF9900</color>
 	<color name="tabTransparent">#10ffffff</color>
 	<color name="white">#ffffffff</color>
 	<color name="black">#000000</color>
-	<color name="green">#66CDAA</color>
+	<color name="green">#FF9900</color>
 	<color name="TextColor">#FFFFFF</color>
     <color name="bgColor">#000000</color>
     <color name="red">#FF0000</color>
     <color name="transparent">#000000</color>
+    <color name="headframcolor">#E4E4E4</color>
     
 </resources>

@@ -3,6 +3,8 @@ package com.dem.on;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,7 +37,8 @@ public class notice extends Activity{
 	private TextView Itemchenghao = null;
 	private TextView TextNoticeWord = null;
 	private Button ItemButtonClicktoClose = null;
-	
+	private SoundPool sp = null;
+	private int spPause = 0;
 	private int nCount = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,15 @@ public class notice extends Activity{
 		
 		Bundle bundle = this.getIntent().getExtras();
         String strID = bundle.getString("id");
-        Cursor cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, Integer.valueOf(strID).intValue());
+        String strFlag = bundle.getString("flag");
+        String tablename;
+        if(Integer.valueOf(strFlag).intValue() == 2){
+        	tablename = MySQLiteOpenHelper.MYRECORD_TABLE_NAME;
+        }
+        else{
+        	tablename = MySQLiteOpenHelper.TABLE_NAME;
+        }
+        Cursor cur = sql.FindData(tablename, Integer.valueOf(strID).intValue());
         
         if (cur.getCount() != 0){
 
@@ -87,9 +98,20 @@ public class notice extends Activity{
 
 			if (file.exists()){
 				if (sc == null){
+					if(Integer.valueOf(strFlag).intValue() == 2){
+						sc = new SoundControl(0);
+					}else{
 					sc = new SoundControl(1);
+					}
 				}
 				sc.playMusic(musicdir);
+			}
+			else{
+				//声明一个SoundPool   
+				int music;
+				sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+				music = sp.load(this, R.raw.default_music, 1);
+				spPause = sp.play(music, 1, 1, 0, 0, 1);   
 			}
 			
 			ItemButtonClicktoClose.setOnClickListener(new OnClickListener() {
@@ -99,7 +121,11 @@ public class notice extends Activity{
 					// TODO Auto-generated method stub
 					nCount++;
 					if (nCount == 30){
-						sc.pause();
+						if (sc != null)
+							sc.pause();
+						if (sp != null)
+							sp.pause(spPause);
+						
 						finish();
 					}
 				}

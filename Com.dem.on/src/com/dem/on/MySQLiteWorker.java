@@ -69,6 +69,8 @@ public class MySQLiteWorker {
 				+ " text);";
 		try {
 			sqlRecord.execSQL(str_sql2);
+			
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.i("提示:数据库存在", "TABLE_NAME");
@@ -127,6 +129,11 @@ public class MySQLiteWorker {
 		return sqlRecord;
 	}
 	
+	public Cursor  GetTableCursor(String strTableName){
+		Cursor cur = sqlRecord.rawQuery("SELECT * FROM "
+				+ strTableName, null);
+		return cur;
+	}
 	public void EnumDataBase(String strTableName){
 		
 		Log.i("MyGesture", "onScroll");  
@@ -157,6 +164,41 @@ public class MySQLiteWorker {
 				
 			}
 		}
+	}
+	
+public void AddNewClockToDataBase(){
+		
+		String NAME = "name";
+		String RECORD_DIR = "record_dir";
+		String PICTURE_DIR = "picture_dir";
+		String TIME = "time";
+		String WAY = "way";
+		String BEIZHU = "beizhu";
+		String ZHENDONG = "zhendong";
+		String CHONGFU = "chongfu";
+		String LINGSHEN_DIR = "lingshen_dir";
+		String CLOCKTIME = "clocktime";
+		String USERNAME = "username";
+		String UPLOADTIME = "uploadtime";
+		String HEAD_DIR = "head_dir";
+		String USE_TIMES = "use_time";
+		ContentValues cv = new ContentValues();
+		cv.put(NAME, "0");
+		cv.put(RECORD_DIR, "0");
+		cv.put(PICTURE_DIR, "0");
+		cv.put(TIME, "0");
+		cv.put(WAY, "0");
+		cv.put(BEIZHU, "备注");
+		cv.put(ZHENDONG, "震动");
+		cv.put(CHONGFU, "每天");
+		cv.put(LINGSHEN_DIR, "0");
+		cv.put(CLOCKTIME, "0:0");
+		cv.put(USERNAME, "0");
+		cv.put(UPLOADTIME, "0");
+		cv.put(HEAD_DIR, "0");
+		cv.put(USE_TIMES, "0");
+		Log.i("tianjiashuju", "****************************");
+		InsertData(MySQLiteOpenHelper.TABLE_NAME, cv);	
 	}
 	
 }

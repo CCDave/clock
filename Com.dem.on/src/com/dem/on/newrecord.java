@@ -107,7 +107,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
         setContentView(R.layout.record_activity);
         
         recordpage = (RelativeLayout)findViewById(R.id.recordpageid);
-        recordpage.setBackgroundResource(R.drawable.page1);
+        recordpage.setBackgroundResource(R.drawable.page_save);
         
         imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"image.jpg"));
         sql = new MySQLiteWorker(this);
@@ -124,7 +124,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		btnRecord.setVisibility(View.GONE);
 		btnNextPage.setVisibility(View.VISIBLE);
 		btnAddPicture.setVisibility(View.VISIBLE);
-		recordpage.setBackgroundResource(R.drawable.page1);
+		recordpage.setBackgroundResource(R.drawable.page_save);
 	}
 	
 	public void Initpage2(){
@@ -328,10 +328,10 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		if (ID == R.id.ButtonUpload){
 			
 			String recordpath = Environment.getExternalStorageDirectory()
-					.getAbsolutePath() + "/" + DateFormat.format("yyyyMMdd_hhmmss",
+					.getAbsolutePath()+ config.RECORD_DIR  + DateFormat.format("yyyyMMdd_hhmmss",
 					Calendar.getInstance(Locale.CHINA))+"_record.mp3";
 			String imagepath = Environment.getExternalStorageDirectory()
-					.getAbsolutePath() + "/" + DateFormat.format("yyyyMMdd_hhmmss",
+					.getAbsolutePath() + config.PICTURE_DIR+ DateFormat.format("yyyyMMdd_hhmmss",
 					Calendar.getInstance(Locale.CHINA))+"_image.png";
 			
 			//拷贝声音和图片文件到响应的文件夹
@@ -341,7 +341,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 			//refreshDataBase();
 			//刷新数据库、
 			//退出
-			finish();
+			returntoRecord();
 		}
 		
 		if (ID == R.id.ButtonNextPage){
@@ -353,12 +353,13 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 				Initpage4();
 			}else if (nPage == 4){
 				//完成加载
+				returntoRecord();
 			}
 		}
 		if (ID == R.id.IdButtonRePage){
 			if (nPage == 1){
 				//退出
-				finish();
+				returntoRecord();
 			}else if (nPage == 2){
 				Initpage1();
 			}else if (nPage == 3){
@@ -370,6 +371,17 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 		}
 	}
 	
+	private void returntoRecord(){
+		Intent in = new Intent();
+		Bundle b = new Bundle();
+		b.putString( "data", "return value" );
+		in.putExtras(b);
+		setResult( RESULT_OK, in);
+		Log.i("danshi nengubengjieshoudao ", "走的退出函数");
+		finish();
+		
+	
+	}
 	private void InsertDataBase(String recordpath, String imagepath){
 		
 		String NAME = "name";
@@ -417,7 +429,6 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	}
 	
 	public void copyFile(String oldPath, String newPath) {   
-		Log.i("11111111111111", "111111111111111111111");
 		Log.i(oldPath, newPath);
 	       try {   
 	           int bytesum = 0;   
@@ -470,6 +481,9 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
             		  try {
 						savePhotoToSDCard(Environment.getExternalStorageDirectory()
 						  		.getAbsolutePath(), IMAGE_FILE_NAME, bitmap);
+						
+						//跳转页面
+						Initpage2();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -479,7 +493,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
             	break;
             case TAKE_BIG_PICTURE:
             		if(imageUri != null){
-            			 cropImageUri(imageUri, 700, 800, CHOOSE_BIG_PICTURE);
+            			 cropImageUri(imageUri, 800, 650, CHOOSE_BIG_PICTURE);
            		 	}
             	break;
             default:

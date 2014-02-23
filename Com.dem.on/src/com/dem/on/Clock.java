@@ -4,7 +4,6 @@ package com.dem.on;
 import java.io.File;
 import java.util.ArrayList;  
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +15,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +28,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -58,7 +58,10 @@ public class Clock extends Activity {
 	
 	private SoundControl  sc = null;
 	
-	
+	private SoundPool sp;//声明一个SoundPool   
+	int spPause;
+    private int music;//定义一个整型用load（）；来设置suondID 
+    
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clock_activity);   
@@ -70,12 +73,8 @@ public class Clock extends Activity {
 	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(bundle);
         startActivity(intent);*/
-        Bundle bundle = new Bundle();
-	    bundle.putString("id", "4");
-	    Intent intent = new Intent(this, newrecord.class);
-	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        sp= new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量   
+        music = sp.load(this, R.raw.default_music, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级   
 
         sql = new MySQLiteWorker(this);
         calendar = Calendar.getInstance();
@@ -104,26 +103,7 @@ private void initMidListView() {
 		
 		myClockId.clear();
 		listItem.clear();
-		HashMap<String, Object> map = new HashMap<String, Object>();  
-        map.put("ItemStarHeadImage", R.drawable.wenzhang);
-        map.put("ItemClockName", "起床闹钟");  
-        map.put("ItemClockTime", "07:30");  
-        map.put("ItemClockData", "周一到周五"); 
-        map.put("ItemClockLastTime", ""); 
-        map.put("ButtonControl_onoff", "0"); 
-        listItem.add(map);  
-        
-        HashMap<String, Object> map2 = new HashMap<String, Object>();  
-        map2.put("ItemStarHeadImage", R.drawable.gaoyuanyuan);
-        map2.put("ItemClockName", "早睡闹钟");  
-        map2.put("ItemClockTime", "23:00");  
-        map2.put("ItemClockData", "周日"); 
-        map2.put("ItemClockLastTime", "还有七小时24分"); 
-        map2.put("ButtonControl_onoff", "0"); 
-        listItem.add(map2);  
-        myClockId.add("1");
-        myClockId.add("2");
-        
+		
         //枚举数据库并添加消息
         SQLiteDatabase sqlbase =  sql.getDataBase();
 		sql.EnumDataBase(MySQLiteOpenHelper.TABLE_NAME);
@@ -138,22 +118,25 @@ private void initMidListView() {
 				Log.i("shujukushifougengxin", cur.getString(5));
 				//获取头像图标
 				//cur.getString(12);
+				int id = Integer.valueOf(cur.getString(0)).intValue();
+				
 				myClockId.add(cur.getString(0));
-				maptmp.put("ItemStarHeadImage", R.drawable.default_clock);
+				if (id == 1)
+					maptmp.put("ItemStarHeadImage", R.drawable.wenzhang);
+				else if (id == 2)
+					maptmp.put("ItemStarHeadImage", R.drawable.gaoyuanyuan);
+				else 
+					maptmp.put("ItemStarHeadImage", R.drawable.default_clock);
 		        //获取闹铃名字
-				Log.i("11111111111", cur.getString(5));
 				maptmp.put("ItemClockName", cur.getString(5));  
 		        //获取闹铃时间
-				Log.i("2222222222", cur.getString(9));
 				maptmp.put("ItemClockTime", cur.getString(9));  
 		        //获取规律
-				Log.i("33333333333333", cur.getString(6));
 				maptmp.put("ItemClockData", cur.getString(6)); 
 		        //计算剩余时间
-				maptmp.put("ItemClockLastTime", "还有七小时24分"); 
-				Log.i("444444444444444444", cur.getString(2));
+				maptmp.put("ItemClockLastTime", ""); 
 				maptmp.put("ButtonControl_onoff", cur.getString(2));
-				
+
 				listItem.add(maptmp); 
 			}
 		}
@@ -302,7 +285,7 @@ private void initMidListView() {
                 holder.ItemClockLastTime = (TextView)convertView.findViewById(R.id.ItemClockLastTime);  
                 holder.ItemStarHeadImage = (ImageView)convertView.findViewById(R.id.ItemStarHeadImage); 
                 holder.ButtonControl_onoff = (ToggleButton)convertView.findViewById(R.id.ButtonControl_onoff);  
-                
+                holder.ItemPlayHeadImage = (ImageView)convertView.findViewById(R.id.ItemPlayHeadImage);
                 convertView.setTag(holder);               
             }else {               
                 holder = (ViewHolder)convertView.getTag();  
@@ -313,15 +296,16 @@ private void initMidListView() {
             holder.ItemClockData.setText((String)listItem.get(position).get("ItemClockData"));  
             holder.ItemClockLastTime.setText((String)listItem.get(position).get("ItemClockLastTime"));  
             holder.ItemStarHeadImage.setBackgroundResource((Integer)listItem.get(position).get("ItemStarHeadImage"));
-            
             holder.ButtonControl_onoff.setTag(position);
+            holder.ItemPlayHeadImage.setBackgroundResource(R.drawable.play_page1);
+            
             String strflag = (String)listItem.get(position).get("ButtonControl_onoff");
             
             if( 0 == Integer.valueOf(strflag).intValue()){
-            	
+            	holder.ButtonControl_onoff.setBackgroundResource(R.drawable.btn_close);
             	holder.ButtonControl_onoff.setChecked(false);
             }else if (1 == Integer.valueOf(strflag).intValue()){
-            	
+            	holder.ButtonControl_onoff.setBackgroundResource(R.drawable.btn_open);
             	holder.ButtonControl_onoff.setChecked(true);
             }
             
@@ -334,6 +318,7 @@ private void initMidListView() {
             		//开启闹钟
             		//获取ID
             		String ID = myClockId.get(position);
+            		buttonView.setBackgroundResource(R.drawable.btn_open);
             		OpenClock(Integer.valueOf(ID).intValue());
             		updataopenclock(Integer.valueOf(ID).intValue(), 1);
             		
@@ -341,6 +326,7 @@ private void initMidListView() {
             	
             		Log.i("2222222222222222", "触发了点击事件");
             		//关闭闹钟
+            		buttonView.setBackgroundResource(R.drawable.btn_close);
             		String ID = myClockId.get(position);
             		deleteClock(Integer.valueOf(ID).intValue());
             		updataopenclock(Integer.valueOf(ID).intValue(), 0);
@@ -348,20 +334,30 @@ private void initMidListView() {
             	}
             	});       
             
-            holder.ItemStarHeadImage.
+           
+            holder.ItemPlayHeadImage.
             setOnClickListener(new View.OnClickListener() {  
                 @Override  
                 public void onClick(View v) {  
                 	Log.i("anniudianjichenggong", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); 
                 	if (nPlayMusic == -1){
                 		//播放音乐
+                		v.setBackgroundResource(R.drawable.stop_page1);
                     	playmusic(position);
                     	nPlayMusic = position;
                 	}else if(position == nPlayMusic){
-                		sc.pause();
+                		v.setBackgroundResource(R.drawable.play_page1);
+                		if (sc != null)
+                			sc.pause();
+                		if (sp != null)
+                			sp.pause(spPause);
                 		nPlayMusic = -1;
                 	}else{
-                		sc.pause();
+                		v.setBackgroundResource(R.drawable.stop_page1);
+                		if (sc != null)
+                			sc.pause();
+                		if (sp != null)
+                			sp.pause(spPause);
                 		playmusic(position);
                     	nPlayMusic = position;
                 	}
@@ -450,10 +446,12 @@ private void initMidListView() {
         public TextView ItemClockLastTime; 
         public ImageView ItemStarHeadImage;
         public ToggleButton ButtonControl_onoff;
+        public ImageView ItemPlayHeadImage;
        
     }
 	
 	void playmusic(int index){
+		
 		String ID = myClockId.get(index);
 		Cursor cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, Integer.valueOf(ID).intValue());
 		if (cur.getCount() != 0){
@@ -465,8 +463,19 @@ private void initMidListView() {
 				}
 				sc.playMusic(strDir);
 			}
+			else{
+				playResouceMusic();
+			}
 		}
 	}
+	private void playResouceMusic(){
+		spPause = sp.play(music, 1, 1, 0, 0, 1); 
+	}
+	@Override
+	protected void onResume() {
+		this.initMidListView();
+		  super.onResume();
+	 }
 }
 
 

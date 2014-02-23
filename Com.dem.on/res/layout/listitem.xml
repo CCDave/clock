@@ -13,7 +13,13 @@
 	android:layout_height="wrap_content" 
 	android:id="@+id/ItemStarHeadImage"
 	android:contentDescription="@string/des"
-	
+	/> 
+ <ImageView 
+	android:layout_alignParentLeft="true"
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content" 
+	android:id="@+id/ItemPlayHeadImage"
+	android:contentDescription="@string/des"
 	/> 
 	
 <TextView 
@@ -35,7 +41,7 @@
 	android:id="@+id/ItemClockTime"
 	android:layout_alignLeft="@id/ItemClockName"
 	android:paddingLeft="12dip"
-	android:textColor="#FFD700"
+	android:textColor="@color/tabDark"
 	
 	/>
 <TextView 
@@ -64,13 +70,14 @@
 
 <ToggleButton
     android:id="@+id/ButtonControl_onoff"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="70dip"
+    android:layout_height="40dip"
     android:focusable="false"
     android:layout_alignParentRight="true"
+    android:paddingRight="20dip"
     android:layout_centerVertical="true"
-    android:textOn="on"
-    android:textOff="off"
+    android:textOn=""
+    android:textOff=""
     android:layout_alignTop="@id/ItemClockTime"
     />
     

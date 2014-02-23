@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent"
+	android:background="@color/white"
+	>
+
+    
+    <FrameLayout
+                android:id="@+id/HeadMyColckcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+          
+                >
+                <TextView 
+   				 	android:text="@string/setup" 
+    		     	android:layout_height="fill_parent" 
+                 	android:layout_width="fill_parent" 
+    			 	android:textSize="20sp"
+    				android:background="@color/headframcolor"
+    				android:textColor="@color/black"
+    				android:id="@+id/ItemRecord"
+    				android:paddingLeft="12dip"
+    				android:gravity="center"
+    />
+ 
+    </FrameLayout>
+    
+	<RelativeLayout
+    	android:divider="@drawable/liner"
+    	android:dividerHeight="1dip"
+        android:id="@+id/ListViewUserData"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/HeadMyColckcontent"
+        >
+                <ImageView 
+                    android:layout_width="fill_parent"
+        			android:layout_height="fill_parent"
+     			    android:background="@drawable/me"
+      			    android:layout_centerVertical="true"
+      			    
+      
+                    />
+    </RelativeLayout>
+    
+</RelativeLayout>

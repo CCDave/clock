@@ -51,6 +51,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 	private static final int FLAG_UPDATA = 2;
 	private static final int FLAG_NEWDATA = 1;
+	private static final int FLAG_SENDDATA = 3;
 	private static final int SELECT_LOCAL_MUSIC = 10;
 	
 	private GestureDetector gestureDetector;
@@ -95,7 +96,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         Bundle bundle = this.getIntent().getExtras();
         
         nflagaddorupdata = bundle.getInt("flag");
-        if (nflagaddorupdata == FLAG_UPDATA)
+        if (nflagaddorupdata == FLAG_UPDATA || FLAG_SENDDATA == nflagaddorupdata)
 		{
         	nUpdataId = bundle.getInt("updataid");
 		}
@@ -131,7 +132,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
         TIME_HOUR = calendar.get(Calendar.HOUR_OF_DAY); 
         TIME_CENT = calendar.get(Calendar.MINUTE);
         
-        if (nflagaddorupdata == FLAG_UPDATA){
+        if (nflagaddorupdata == FLAG_UPDATA || nflagaddorupdata == FLAG_SENDDATA){
         	InitMyself();
         }
         
@@ -149,8 +150,17 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	
 	public void InitMyself(){
 		//初始化数据
+		
 		Log.i("&&&&&&&&&&&&&&&&&&&&&&&&&", ""+nUpdataId);
-		Cursor  cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, nUpdataId);
+		String TABLENAME;
+		if (nflagaddorupdata == FLAG_SENDDATA){
+			TABLENAME = MySQLiteOpenHelper.MYRECORD_TABLE_NAME;
+		}else if (nflagaddorupdata == FLAG_UPDATA){
+			TABLENAME = MySQLiteOpenHelper.TABLE_NAME;
+		}else
+			TABLENAME =MySQLiteOpenHelper.TABLE_NAME;
+		
+		Cursor  cur = sql.FindData(TABLENAME, nUpdataId);
 		if (cur.getCount() != 0)
 		{
 			Log.i("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^","");
@@ -743,7 +753,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		cv.put(UPLOADTIME, uploadtime);
 		cv.put(HEAD_DIR, headdir);
 		cv.put(USE_TIMES, usetime);
-		if (nflagaddorupdata == FLAG_NEWDATA){
+		if (nflagaddorupdata == FLAG_NEWDATA ||nflagaddorupdata ==  FLAG_SENDDATA){
 			Log.i("tianjiashuju", "****************************");
 			sql.InsertData(MySQLiteOpenHelper.TABLE_NAME, cv);	
 		}
@@ -756,6 +766,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 	
 	public void returnToMain(){
 		//跳回主界面并显示
+		Log.i("danshi nengubengjieshoudao ", "走的退出函数");
 				Intent OkPage = new Intent();
 				OkPage.setClass(addclock.this, MainActivity.class);
 			    Bundle bundle = new Bundle();

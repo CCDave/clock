@@ -1,8 +1,14 @@
 package com.dem.on;
 
+import java.io.File;
+
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -26,7 +32,7 @@ public class MainActivity extends TabActivity {
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 	private GestureDetector gestureDetector;
 	View.OnTouchListener gestureListener;
-	private static boolean bfistflag = false;
+
 	
 	int currentView = 0;
 	private static int maxTabIndex = 3;
@@ -37,14 +43,12 @@ public class MainActivity extends TabActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		if (!bfistflag){
-			//firstload();
-			bfistflag = true;
-		}
 		
+		IfFristLoad();
+
         setContentView(R.layout.activity_main);
 		tabHost = getTabHost();
-		//UtilVar.activities.add(MainActivity.this);
+		
 		setTabs();  
 		
 		gestureDetector = new GestureDetector(new MyGestureDetector());
@@ -57,16 +61,51 @@ public class MainActivity extends TabActivity {
 			}
 		};
     }
+    
+    private void IfFristLoad(){
+    	SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
+    	boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+    	Editor editor = sharedPreferences.edit();
+    	if (isFirstRun)
+    	{
+    	Log.d("debug", "第一次运行");
+    		firstload();
+    		MySQLiteWorker sql = new MySQLiteWorker(this);
+    		sql.AddNewClockToDataBase();
+    		sql.AddNewClockToDataBase();
+    		//创建存储路径
+    		createDataDir();
+    		editor.putBoolean("isFirstRun", false);
+    		editor.commit();
+    	} else
+    	{
+    	Log.d("debug", "不是第一次运行");
+    	}
+    }
+    private void createDataDir(){
+    	File f = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + config.PICTURE_DIR);
+    	File f1 = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + config.RECORD_DIR);
+    	 if(f.exists() == false) {
+    	        f.mkdirs();
+    	 System.out.println("路径不存在,但是已经成功创建了" + Environment.getExternalStorageDirectory()
+ 				.getAbsolutePath() + config.PICTURE_DIR);
+    	 }else{
+    	  System.out.println("文件路径存在" + Environment.getExternalStorageDirectory()
+  				.getAbsolutePath() + config.PICTURE_DIR);
+    	 }
+    }
     private void firstload(){
     	Intent it = new Intent(MainActivity.this, TestWeiXinWhatsNewActivity.class);
 		startActivity(it);
     }
     private void setTabs()
 	{
-    	addTab("clock", R.drawable.tab_clock, Clock.class);
-    	addTab("stars", R.drawable.tab_stars, stars.class);
-    	addTab("record", R.drawable.tab_record, record.class);
-    	addTab("setup", R.drawable.tab_setup, setup.class);
+    	addTab("闹钟", R.drawable.tab_clock, Clock.class);
+    	addTab("明星", R.drawable.tab_stars, stars.class);
+    	addTab("录音", R.drawable.tab_record, record.class);
+    	addTab("我", R.drawable.tab_setup, me.class);
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c)
@@ -76,6 +115,7 @@ public class MainActivity extends TabActivity {
 		View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, getTabWidget(), false);
 		TextView title = (TextView) tabIndicator.findViewById(R.id.title);
 		title.setText(labelId);
+		title.setTextSize(18);
 		spec.setIndicator(tabIndicator);
 		spec.setContent(intent);
 		tabHost.addTab(spec);
@@ -121,4 +161,8 @@ public class MainActivity extends TabActivity {
 			}
 			return super.dispatchTouchEvent(event);
 		}
+		
+	
+
+
 }

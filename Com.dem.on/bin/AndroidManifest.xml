@@ -19,7 +19,7 @@
     
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon_clock"
         android:label="@string/app_name"
         android:theme="@style/notitle" >
       
@@ -37,12 +37,14 @@
          <activity android:name=".record"/>
          <activity android:name=".setup"/>
          <activity android:name=".stars_list"/>
+         <activity android:name=".star_list_class"/>
          <activity android:name=".addclock"/>
          <activity android:name=".TestWeiXinWhatsNewActivity"/>
          <receiver android:name=".AlarmReceiver" android:process=":remote" />
          <activity android:name=".OtherActivity"></activity>
          <activity android:name=".musicActivity"></activity>
          <activity android:name=".notice"></activity>
+         <activity android:name=".me"></activity>
          <activity android:name=".newrecord"></activity>
          <!-- <activity android:name=".notice" android:theme="@style/Theme.Transparent"></activity> -->
     </application>

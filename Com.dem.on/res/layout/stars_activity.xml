@@ -14,21 +14,22 @@
    				 	android:text="@string/stars" 
     		     	android:layout_height="fill_parent" 
                  	android:layout_width="fill_parent" 
-    			 	android:textSize="30sp"
-    				android:background="@color/green"
+    			 	android:textSize="20sp"
+    				android:background="@color/headframcolor"
     				android:textColor="@color/black"
     				android:id="@+id/ItemStars"
     				android:paddingLeft="12dip"
     				android:gravity="center"/>
 
-                <Button
-    				android:id="@+id/ButtonControl"
+                <ImageView
+    				android:id="@+id/ButtonControl_search"
+    				android:background="@drawable/search_normal"
     				android:layout_width="wrap_content"
     				android:layout_height="wrap_content"
     				android:layout_alignParentRight="true"
     				android:layout_centerVertical="true"
-    				android:textOn="on"
-    				android:textOff="off"
+    				android:layout_marginRight="20dip"
+    		
     				android:layout_alignTop="@id/ItemClockTime" 
     				/>
     </RelativeLayout>

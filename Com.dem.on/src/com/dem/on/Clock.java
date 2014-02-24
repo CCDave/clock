@@ -66,13 +66,6 @@ public class Clock extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clock_activity);   
         
-        //测试响铃
-        /*Bundle bundle = new Bundle();
-	    bundle.putString("id", "4");
-	    Intent intent = new Intent(this, notice.class);
-	    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtras(bundle);
-        startActivity(intent);*/
         sp= new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量   
         music = sp.load(this, R.raw.default_music, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级   
 
@@ -319,6 +312,7 @@ private void initMidListView() {
             		//获取ID
             		String ID = myClockId.get(position);
             		buttonView.setBackgroundResource(R.drawable.btn_open);
+            		deleteClock(Integer.valueOf(ID).intValue());
             		OpenClock(Integer.valueOf(ID).intValue());
             		updataopenclock(Integer.valueOf(ID).intValue(), 1);
             		
@@ -367,9 +361,6 @@ private void initMidListView() {
         }  
     }  
 	
-	
-	
-	
 	public void updataopenclock(int Id, int flag){
 		Cursor cur = sql.FindData(MySQLiteOpenHelper.TABLE_NAME, Integer.valueOf(Id).intValue());
 		if (cur.getCount() != 0){
@@ -402,6 +393,7 @@ private void initMidListView() {
 			/* 建立Intent和PendingIntent，来调用目标组件 */
 			Intent intent = new Intent(Clock.this,
 					AlarmReceiver.class);
+			Log.i("ssssssssssssss", ""+ID);
 			intent.putExtra("id", ""+ID);
 			
 			PendingIntent pendingIntent = PendingIntent
@@ -412,7 +404,6 @@ private void initMidListView() {
 			am = (AlarmManager) getSystemService(ALARM_SERVICE);
 			
 			/* 设置闹钟 */
-			
 			long time = calendar.getTimeInMillis();
 			if (time < System.currentTimeMillis()){
 				time = (System.currentTimeMillis() + 24 * 60 * 60 * 1000) - (System.currentTimeMillis() - time);

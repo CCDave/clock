@@ -251,7 +251,10 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		int mHour = calendar.get(Calendar.HOUR_OF_DAY);
 		int mMinute = calendar.get(Calendar.MINUTE);
-		
+		Log.i("当前小时", ""+mHour);
+		Log.i("当前小时", ""+mMinute);
+		Log.i("设置小时", ""+TIME_HOUR);
+		Log.i("设置小时", ""+TIME_CENT);
 		//获取字体时间
 		int tHour = 0;
 		int tCent = 0;

@@ -2,12 +2,15 @@ package com.dem.on;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,19 +43,21 @@ public class notice extends Activity{
 	private SoundPool sp = null;
 	private int spPause = 0;
 	private int nCount = 0;
-	
+	int music = 0;
+	int rplay = -1;
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.noticepage_activity); 
-        if (sc == null){
-        	//参数为1 无线播放
-        	sc = new SoundControl(1);
-        }
+        setContentView(R.layout.noticepage_activity);
         
         if (sql == null){
         	sql = new MySQLiteWorker(this);
         }
-        
+       
+		sp= new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
+		music = sp.load(this, R.raw.default_music, 1);
+		SystemClock.sleep(1000);
+		
+		
         ItemBigPicture_head = (ImageView)findViewById(R.id.ItemBigPicture_head);
         Itemtouxiang = (ImageButton) findViewById(R.id.Itemtouxiang);
         huangguan = (ImageButton) findViewById(R.id.huangguan);
@@ -71,14 +76,17 @@ public class notice extends Activity{
         String strID = bundle.getString("id");
         String strFlag = bundle.getString("flag");
         String tablename;
+        
+        
         if(Integer.valueOf(strFlag).intValue() == 2){
         	tablename = MySQLiteOpenHelper.MYRECORD_TABLE_NAME;
+        	rplay = 0;
         }
         else{
         	tablename = MySQLiteOpenHelper.TABLE_NAME;
         }
         Cursor cur = sql.FindData(tablename, Integer.valueOf(strID).intValue());
-        
+        Log.i(tablename, ""+strID + "dsadasd" + strFlag);
         if (cur.getCount() != 0){
 
         	String musicdir = cur.getString(8);
@@ -95,28 +103,25 @@ public class notice extends Activity{
 			}else{
 				ItemBigPicture_head.setBackgroundResource(R.drawable.queshengtupian);
 			}
-
+  		  	Log.i(musicdir, "bofang");
 			if (file.exists()){
 				if (sc == null){
 					if(Integer.valueOf(strFlag).intValue() == 2){
 						sc = new SoundControl(0);
 					}else{
-					sc = new SoundControl(1);
+						sc = new SoundControl(1);
 					}
+					Log.i(musicdir, "bofang");
+					
 					sc.playMusic(musicdir);
 				}
-				
-			}
-			else{
-				//声明一个SoundPool   
-				int music;
-				sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
-				music = sp.load(this, R.raw.default_music, 1);
-				spPause = sp.play(music, 1, 1, 0, 0, 1);   
+			}else{
+				//声明一个SoundPool  
+				spPause = sp.play(music, 1, 1, 0, 0, 1);
 			}
 			
-			ItemButtonClicktoClose.setOnClickListener(new OnClickListener() {
-				
+			
+			ItemButtonClicktoClose.setOnClickListener(new OnClickListener() {	
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub

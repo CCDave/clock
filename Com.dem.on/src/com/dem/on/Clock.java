@@ -133,11 +133,7 @@ private void initMidListView() {
 				listItem.add(maptmp); 
 			}
 		}
-		/*SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//锟斤拷锟皆�  
-	            R.layout.listitem,      
-	            new String[] {"ItemStarHeadImage","ItemClockName", "ItemClockTime","ItemClockData","ItemClockLastTime"},    
-	            new int[] {R.id.ItemStarHeadImage,R.id.ItemClockName,R.id.ItemClockTime,R.id.ItemClockData, R.id.ItemClockLastTime}  
-	        );*/
+		
 		MyAdapter listItemAdapter = new MyAdapter(this);
 
         list.setAdapter(listItemAdapter);  
@@ -312,7 +308,7 @@ private void initMidListView() {
             		//获取ID
             		String ID = myClockId.get(position);
             		buttonView.setBackgroundResource(R.drawable.btn_open);
-            		deleteClock(Integer.valueOf(ID).intValue());
+            		//deleteClock(Integer.valueOf(ID).intValue());
             		OpenClock(Integer.valueOf(ID).intValue());
             		updataopenclock(Integer.valueOf(ID).intValue(), 1);
             		
@@ -322,7 +318,7 @@ private void initMidListView() {
             		//关闭闹钟
             		buttonView.setBackgroundResource(R.drawable.btn_close);
             		String ID = myClockId.get(position);
-            		deleteClock(Integer.valueOf(ID).intValue());
+            		//deleteClock(Integer.valueOf(ID).intValue());
             		updataopenclock(Integer.valueOf(ID).intValue(), 0);
             	}
             	}

@@ -251,10 +251,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		int mHour = calendar.get(Calendar.HOUR_OF_DAY);
 		int mMinute = calendar.get(Calendar.MINUTE);
-		Log.i("当前小时", ""+mHour);
-		Log.i("当前小时", ""+mMinute);
-		Log.i("设置小时", ""+TIME_HOUR);
-		Log.i("设置小时", ""+TIME_CENT);
+		
 		//获取字体时间
 		int tHour = 0;
 		int tCent = 0;
@@ -272,6 +269,19 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		}
 		else
 			tCent = TIME_CENT - mMinute;
+		
+		if (mHour == TIME_HOUR){
+			if (TIME_CENT > mMinute){
+				tHour =  0;
+				tCent =  TIME_CENT - mMinute;
+			}else if (TIME_CENT < mMinute){
+				tHour = 23;
+				tCent = 60 - mMinute + TIME_CENT;;
+			}else {
+				tHour = 0;
+				tCent = 0;
+			}
+		}
 		
 		String str = "还有" + Integer.toString(tHour) + "小时" + Integer.toString(tCent)+ "分响铃";
 		TextView text = (TextView) findViewById(R.id.addclocksettimelongtext);	

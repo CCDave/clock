@@ -16,7 +16,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		//根据ID从数据库中获取路径突然响铃
 		String msg=intent.getStringExtra("id");
 		//触发闹钟创空
-		Log.i("shujukushifougengxin", msg);
+		Log.i("111111111111111111111111111111111111111", msg);
 
 	    Bundle bundle = new Bundle();
 	    bundle.putString("id", msg);

@@ -62,7 +62,7 @@ public class MainActivity extends TabActivity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		IfFristLoad();
+		//IfFristLoad();
 		createDataDir();
         setContentView(R.layout.activity_main);
         
@@ -95,8 +95,8 @@ public class MainActivity extends TabActivity {
     	Editor editor = sharedPreferences.edit();
     	if (isFirstRun)
     	{
-    	Log.d("debug", "第一次运行");
-    		firstload();
+    	Log.i("debug", "第一次运行");
+    		//firstload();
     		MySQLiteWorker sql = new MySQLiteWorker(this);
     		sql.AddNewClockToDataBase();
     		sql.AddNewClockToDataBase();
@@ -106,7 +106,7 @@ public class MainActivity extends TabActivity {
     		editor.commit();
     	} else
     	{
-    	Log.d("debug", "不是第一次运行");
+    	Log.i("debug", "不是第一次运行");
     	}
     }
     private void createDataDir(){

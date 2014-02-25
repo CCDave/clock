@@ -18,10 +18,12 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -108,10 +110,24 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
         sql = new MySQLiteWorker(this);
         sql.CreateDataTable(MySQLiteOpenHelper.MYRECORD_TABLE_NAME);
         sql.EnumDataBase(MySQLiteOpenHelper.MYRECORD_TABLE_NAME);
-        InitView();
         
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("action.refreshFriend.record");
+        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        
+        InitView();
         InitListView();
     }
+	private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {  
+	      @Override  
+	      public void onReceive(Context context, Intent intent) {  
+	          String action = intent.getAction();  
+	          if (action.equals("action.refreshFriend.record"))  
+	          {  Log.i("$$$$$$$$$$$$$$$", "1111111");
+	        	  InitListView();
+	          }  
+	      }  
+	  };  
 	private void InitView(){
 		ButtonStartRecord = (Button)findViewById(R.id.ButtonStartRecord);
 		ButtonStartRecord.setOnClickListener(this);

@@ -18,6 +18,8 @@ import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -26,6 +28,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -47,7 +50,7 @@ public class ViewPagerActivity extends Activity {
 	LocalActivityManager manager = null;
 
 	TabHost tabHost = null;
-
+	MyPageAdapter adp ;
 	private ViewPager pager = null;
 
 	@Override
@@ -55,6 +58,8 @@ public class ViewPagerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.viewpager);
+		
+		IfFristLoad();
 		
 		context = ViewPagerActivity.this;
 		
@@ -110,8 +115,9 @@ public class ViewPagerActivity extends Activity {
 		tabHost.addTab(tabHost.newTabSpec("B").setIndicator(tabIndicator2).setContent(intent));
 		tabHost.addTab(tabHost.newTabSpec("C").setIndicator(tabIndicator3).setContent(intent));
 		tabHost.addTab(tabHost.newTabSpec("D").setIndicator(tabIndicator4).setContent(intent));
-		
-		pager .setAdapter(new MyPageAdapter(listViews));
+		adp = new MyPageAdapter(listViews);
+		pager .setAdapter(adp);
+
 		pager .setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
@@ -133,34 +139,69 @@ public class ViewPagerActivity extends Activity {
             public void onTabChanged(String tabId) {
             	
             	if ("A".equals(tabId)) {
-            		Log.i("重新激活了列表", "1111111111111111111111111111111111");
+            		
+            		sendMsg("action.refreshFriend.clock");
                     pager.setCurrentItem(0);
                 } 
                 if ("B".equals(tabId)) {
-                	Log.i("重新激活了列表", "222222222222222222222222222222222222");
-                    pager.setCurrentItem(1);
+                	
+                	//sendMsg("action.refreshFriend.stars");
+                	pager.setCurrentItem(1);
                     
                 } 
                 if ("C".equals(tabId)) {
-                	Log.i("重新激活了列表", "33333333333333333333333333");
-                    pager.setCurrentItem(2);
+                	Log.i("$$$$$$$$$$$$$$$", "recordrecordrecord");
+                	sendMsg("action.refreshFriend.record");
+                	pager.setCurrentItem(2);
                                     } 
                 if ("D".equals(tabId)) {
-                	Log.i("重新激活了列表", "4444444444444444444444444444");
+                	
+                	//sendMsg("action.refreshFriend.me");
                     pager.setCurrentItem(3);
+                    
                 } 
             }
         });
-	
-		
-		
 	}
+	
+	private void IfFristLoad(){
+    	SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
+    	boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+    	Editor editor = sharedPreferences.edit();
+    	if (isFirstRun)
+    	{
+    	Log.i("debug", "第一次运行");
+    		firstload();
+    		MySQLiteWorker sql = new MySQLiteWorker(this);
+    		sql.AddNewClockToDataBase();
+    		sql.AddNewClockToDataBase();
+    		editor.putBoolean("isFirstRun", false);
+    		editor.commit();
+    	} else
+    	{
+    	Log.i("debug", "不是第一次运行");
+    	}
+    }
+	 private void firstload(){
+	    	Intent it = new Intent(ViewPagerActivity.this, TestWeiXinWhatsNewActivity.class);
+			startActivity(it);
+	    }
 	@Override
 	protected void onResume() {
 		Log.i("重新激活了列表", "555555555555555555555555");
-		
+		sendMsg("action.refreshFriend.clock");
+		//sendMsg("action.refreshFriend.stars");
+		Log.i("$$$$$$$$$$$$$$$", "recordrecordrecord");
+		sendMsg("action.refreshFriend.record");
+		//sendMsg("action.refreshFriend.me");
 		  super.onResume();
 	 }
+	protected void sendMsg(String msg){
+		Intent intent = new Intent();  
+        intent.setAction(msg);  
+        sendBroadcast(intent); 
+	}
+	
 	private View getView(String id, Intent intent) {
 		return manager.startActivity(id, intent).getDecorView();
 	}
@@ -173,6 +214,7 @@ public class ViewPagerActivity extends Activity {
 			this.list = list;
 		}
 		
+		public void notifyDataSetChanged() {};
 		@Override
 		public void unregisterDataSetObserver(DataSetObserver observer) {
 		    if (observer != null) {
@@ -227,6 +269,8 @@ public class ViewPagerActivity extends Activity {
         @Override
         public void startUpdate(View arg0) {
         }
+        
+        
 
 	}
 

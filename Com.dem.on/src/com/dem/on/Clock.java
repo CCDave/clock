@@ -10,9 +10,11 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
@@ -86,14 +88,41 @@ public class Clock extends Activity {
         });
             
         list = (ListView) findViewById(R.id.ListViewClock);
-       
+        
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("action.refreshFriend.clock");
+        intentFilter.addAction("action.refreshFriend.clock.delete");
+        intentFilter.addAction("action.refreshFriend.clock.updata");
+        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+
         this.initMidListView();
     }
-    
-   
-    
-private void initMidListView() {
-		
+	protected void sendMsg(String msg){
+		Intent intent = new Intent();  
+        intent.setAction(msg);  
+        sendBroadcast(intent); 
+	}
+	private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {  
+	      @Override  
+	      public void onReceive(Context context, Intent intent) {  
+	          String action = intent.getAction();  
+	          if (action.equals("action.refreshFriend.clock"))  
+	          {  
+	        	  initMidListView();
+	          }  
+	          if (action.equals("action.refreshFriend.clock.delete"))  
+	          {  
+	        	  initMidListView();
+	          }  
+	          if (action.equals("action.refreshFriend.clock.updata"))  
+	          {  
+	        	  initMidListView();
+	          }  
+	      }  
+	  };  
+	
+	  private void initMidListView() {
+	 	Log.i("shujukushifougengxin", "****************************");
 		myClockId.clear();
 		listItem.clear();
 		
@@ -143,6 +172,7 @@ private void initMidListView() {
         	public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
         			int arg2, long arg3) {
         		listItemPosition = arg2;
+        		DeleteClock(listItemPosition);
         		Log.i("$$$$$$$$$$$$$$$", ""+arg2);
         		Log.i("$$$$$$$$$$$$$$$", ""+arg3);
         			return false;
@@ -163,12 +193,33 @@ private void initMidListView() {
         list.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {  
             @Override  
             public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {  
-                menu.add(0, 0, 0, "删除");  
-                menu.add(0, 1, 0, "编辑");     
+                
+            	
+            	//menu.add(0, 0, 0, "删除");  
+                //menu.add(0, 1, 0, "编辑");
+                
             }  
         });    
+        
 	}
+		@Override
+		public boolean onMenuItemSelected(int featureId, MenuItem item) {
+			Log.i("$$$$$$$$$$$$$$$", "666666666666666666");
+			switch (item.getItemId()) {
+			case 0:
+				//删除这一项
+				DeleteClock(listItemPosition);
+				break;
+			case 1:
+				//编辑这一项
+				ChangeClock(listItemPosition);
+				break;
+			default:
+				onContextItemSelected(item);
 
+			}
+			return false;
+		}
 	@Override
 	public boolean onContextItemSelected(MenuItem menu){
 		
@@ -461,6 +512,11 @@ private void initMidListView() {
 	}
 	public void refreshData(){
 		this.initMidListView();
+	}
+	
+	@Override
+	protected void onRestart(){
+		
 	}
 	@Override
 	protected void onResume() {

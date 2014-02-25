@@ -19,7 +19,9 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
                 android:layout_height="0dip"
-                android:layout_weight="1" />
+                android:layout_weight="1" 
+                />
+           
 
             <TabWidget
                 android:id="@android:id/tabs"

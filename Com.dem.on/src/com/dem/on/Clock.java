@@ -437,6 +437,7 @@ private void initMidListView() {
        
     }
 	
+	
 	void playmusic(int index){
 		
 		String ID = myClockId.get(index);
@@ -458,8 +459,12 @@ private void initMidListView() {
 	private void playResouceMusic(){
 		spPause = sp.play(music, 1, 1, 0, 0, 1); 
 	}
+	public void refreshData(){
+		this.initMidListView();
+	}
 	@Override
 	protected void onResume() {
+		Log.i("重新激活了列表", "1111111111111111111111111111111111");
 		this.initMidListView();
 		  super.onResume();
 	 }

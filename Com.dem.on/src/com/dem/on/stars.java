@@ -55,6 +55,7 @@ public class stars extends TabActivity{
 	@Override
 	protected void onResume() {
 		Log.i("刷新", "刷新");
+		Log.i("重新激活了列表", "1111111111111111111111111111111111");
 		  super.onResume();
 	 }
 }

@@ -777,7 +777,7 @@ public class addclock extends Activity implements OnTouchListener , OnClickListe
 		//跳回主界面并显示
 		Log.i("danshi nengubengjieshoudao ", "走的退出函数");
 				Intent OkPage = new Intent();
-				OkPage.setClass(addclock.this, MainActivity.class);
+				OkPage.setClass(addclock.this, ViewPagerActivity.class);
 			    Bundle bundle = new Bundle();
 			    bundle.putString("name", "shuju");
 			    bundle.putDouble("height", 123.123);

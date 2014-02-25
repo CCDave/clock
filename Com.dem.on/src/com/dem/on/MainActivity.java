@@ -1,11 +1,16 @@
 package com.dem.on;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.app.LocalActivityManager;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -16,9 +21,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.TabHost.OnTabChangeListener;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+
+
+
+import com.dem.on.EmptyActivity;
+
 import com.dem.on.Clock;
 import com.dem.on.R;
 
@@ -26,7 +41,7 @@ import com.dem.on.R;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
 
-	TabHost tabHost;
+	
 	private static final int SWIPE_MIN_DISTANCE = 120;
 	private static final int SWIPE_MAX_OFF_PATH = 250;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -37,6 +52,9 @@ public class MainActivity extends TabActivity {
 	int currentView = 0;
 	private static int maxTabIndex = 3;
 	
+	TabHost tabHost = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +65,19 @@ public class MainActivity extends TabActivity {
 		IfFristLoad();
 		createDataDir();
         setContentView(R.layout.activity_main);
-		tabHost = getTabHost();
-		
+        
+        Intent OkPage = new Intent();
+		OkPage.setClass(MainActivity.this, ViewPagerActivity.class);
+	    Bundle bundle = new Bundle();
+	    bundle.putInt("flag", 1);
+	    bundle.putInt("updataid", 0);
+	    OkPage.putExtras(bundle);
+	    startActivityForResult(OkPage, 1);
+	    //finish();
+        
+        
+		/*tabHost = getTabHost();
 		setTabs();  
-		
 		gestureDetector = new GestureDetector(new MyGestureDetector());
 		gestureListener = new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -59,7 +86,7 @@ public class MainActivity extends TabActivity {
 				}
 				return false;
 			}
-		};
+		};*/
     }
     
     private void IfFristLoad(){
@@ -104,10 +131,12 @@ public class MainActivity extends TabActivity {
 				.getAbsolutePath() + config.RECORD_DIR);
  	 }
     }
+    
     private void firstload(){
     	Intent it = new Intent(MainActivity.this, TestWeiXinWhatsNewActivity.class);
 		startActivity(it);
     }
+    
     private void setTabs()
 	{
     	addTab("闹钟", R.drawable.tab_clock, Clock.class);
@@ -119,6 +148,7 @@ public class MainActivity extends TabActivity {
 	private void addTab(String labelId, int drawableId, Class<?> c)
 	{
 		Intent intent = new Intent(this, c);
+		
 		TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);	
 		View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, getTabWidget(), false);
 		TextView title = (TextView) tabIndicator.findViewById(R.id.title);
@@ -128,6 +158,7 @@ public class MainActivity extends TabActivity {
 		spec.setContent(intent);
 		tabHost.addTab(spec);
 	}
+	
 	class MyGestureDetector extends SimpleOnGestureListener {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -170,7 +201,4 @@ public class MainActivity extends TabActivity {
 			return super.dispatchTouchEvent(event);
 		}
 		
-	
-
-
 }

@@ -466,7 +466,7 @@ RecordHelper.OnStateChangedListener, OnCompletionListener, OnErrorListener{
 	}
 	@Override
 	protected void onResume() {
-		
+		Log.i("重新激活了列表", "1111111111111111111111111111111111");
 		 InitListView();
 		 super.onResume();
 	 }

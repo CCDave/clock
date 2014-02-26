@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.app.TabActivity;
 import android.content.Context;
@@ -88,7 +89,11 @@ public class MainActivity extends TabActivity {
 			}
 		};*/
     }
-    
+    @Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		finish();
+	}
     private void IfFristLoad(){
     	SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
     	boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);

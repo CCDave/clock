@@ -59,7 +59,7 @@ public class ViewPagerActivity extends Activity {
 		
 		setContentView(R.layout.viewpager);
 		
-		IfFristLoad();
+		
 		
 		context = ViewPagerActivity.this;
 		
@@ -162,6 +162,8 @@ public class ViewPagerActivity extends Activity {
                 } 
             }
         });
+	 
+	 IfFristLoad();
 	}
 	
 	private void IfFristLoad(){

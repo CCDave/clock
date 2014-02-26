@@ -369,7 +369,7 @@ public class Clock extends Activity {
             		//关闭闹钟
             		buttonView.setBackgroundResource(R.drawable.btn_close);
             		String ID = myClockId.get(position);
-            		//deleteClock(Integer.valueOf(ID).intValue());
+            		deleteClock(Integer.valueOf(ID).intValue());
             		updataopenclock(Integer.valueOf(ID).intValue(), 0);
             	}
             	}

@@ -107,10 +107,16 @@
     		android:layout_alignParentLeft="true"
 	      />
 	  
-	<RelativeLayout 
-	    android:layout_below="@id/TextNoticeWord"
+	<RelativeLayout
 	    android:layout_width="fill_parent"
-    	android:layout_height="fill_parent">
+	    android:layout_height="fill_parent"
+	    android:layout_below="@id/TextNoticeWord"
+	    android:layout_marginBottom="20dip"
+	    android:layout_marginLeft="70dip"
+	    android:layout_marginRight="70dip"
+	    android:layout_marginTop="20dip" 
+	    android:background="@color/red">
+		
 	    <Button 
 	  			android:id="@+id/ItemButtonClicktoClose"
 				android:layout_width="wrap_content"
@@ -118,10 +124,11 @@
     			android:layout_centerHorizontal="true"
     			android:layout_centerVertical="true"
     			android:layout_centerInParent="true"
-    			android:textColor="#ff000000"
+    			android:textColor="@color/white"
     			android:text="点击30次即可关闭"
-    			android:textSize="25sp"
-    			android:background="@color/red"
+    			android:textSize="15sp"
+    			android:background="@android:color/transparent"
+    			
 	      />
 	</RelativeLayout>
 	  

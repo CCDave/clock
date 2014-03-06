@@ -17,8 +17,8 @@ public class me extends Activity{
 	Activity This;
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.me); 
-        ItemButtonMyHomePage = (Button)findViewById(R.id.ItemButtonMyHomePage);
+        setContentView(R.layout.newme); 
+        /*ItemButtonMyHomePage = (Button)findViewById(R.id.ItemButtonMyHomePage);
         This = this;
         ItemButtonMyHomePage.setOnClickListener(new OnClickListener() {
 			
@@ -33,6 +33,6 @@ public class me extends Activity{
 		        startActivity(intent);
 			}
 		});
-        ItemButtonMyHomePage.setVisibility(View.GONE);
+        ItemButtonMyHomePage.setVisibility(View.GONE);*/
     }
 }

@@ -1,0 +1,10 @@
+diff a/Com.dem.on/src/com/dem/on/MainActivity.java b/Com.dem.on/src/com/dem/on/MainActivity.java	(rejected hunks)
+@@ -62,7 +62,7 @@
+ 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+ 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+ 		
+-		IfFristLoad();
++		//IfFristLoad();
+ 		createDataDir();
+         setContentView(R.layout.activity_main);
+         
